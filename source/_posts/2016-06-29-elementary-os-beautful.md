@@ -5,6 +5,10 @@ date: 2016-06-29 19:25:35 +0800
 comments: true
 categories: Linux
 ---
+### Contents
+{:.no_toc}
+* a random unordered list with only one item
+{:toc}
 
 ### 1. 安装 `tweak`
 
@@ -13,6 +17,7 @@ sudo apt-add-repository ppa:versable/elementary-update
 sudo apt-get update
 sudo apt-get install elementary-tweaks
 ```
+<!-- more -->
 
 ### 2. 修改 Terminal 字体大小
 
