@@ -12,7 +12,7 @@ categories: "Markdown"
 ### Insert image.
 
 {% coderay lang:ruby %}{% raw %}
-{% img [left|right|center] {{ root_url }}/images/test.jpg [width] [height] [title text [alt text]] %}
+{% img [left|right|center] /images/test.jpg [width] [height] [title text [alt text]] %}
 OR
 {% imgcap {{ root_url }}/images/test.jpg 256 256 This is a image test %}{% endraw %}
 {% endcoderay %}
