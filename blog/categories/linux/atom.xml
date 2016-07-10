@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Categories:Linux | Free Mind]]></title>
+  <link href="http://shengmingzhiqing.com/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://shengmingzhiqing.com/"/>
+  <updated>2016-07-10T16:34:48+08:00</updated>
+  <id>http://shengmingzhiqing.com/</id>
+  <author>
+    <name><![CDATA[Jie Huang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Install Latex]]></title>
+    <link href="http://shengmingzhiqing.com/blog/ubuntu-install-latex.html/"/>
+    <updated>2016-07-07T00:04:30+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/ubuntu-install-latex</id>
+    <content type="html"><![CDATA[<p>可以在 Ubuntu 安装很多 LaTeX 的分发版，其中一个是 TeX Live。</p>
+
+<ul>
+  <li>使用下面命令可以在 Ubuntu 上安装 Tex Live</li>
+</ul>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+sudo apt-get install texlive-full
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<!--more-->
+
+<ul>
+  <li>要编辑 LaTeX 文档需要一个编辑器，你可以找到很多编辑器，这里我们推荐 Texmaker</li>
+</ul>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+sudo apt-get install texmaker
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<ul>
+  <li>在 Ubuntu 下执行下面命令可以打开 Texmaker 编辑器：</li>
+</ul>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+texmaker
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<ul>
+  <li>现在让我们用 Texmaker 创建一个简单的文档，点击 File -&gt; New 然后在新文档中插入如下内容：</li>
+</ul>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="CodeRay">
+  <div class="code"><pre>
+\documentclass{article}
+\begin{document}
+Hello oschina!
+\end{document}
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<ul>
+  <li>接下来使用 File -&gt; Save 将文档保存为一个扩展名为 tex 的文件，然后点击 Quick Build 来编译文档：</li>
+</ul>
+
+<p><span class='caption-wrapper'><img class='caption' src='/images/2016-07-07-ubuntu-install-latex.jpg' width='800' height='800' title=''><span class='caption-text'></span></span></p>
+
+<p><a href="http://www.oschina.net/question/12_63776?fromerr=9YSLPyM7">OSCHINA</a> 原创翻译</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Install STIP Under Ubuntu 14.04]]></title>
+    <link href="http://shengmingzhiqing.com/blog/ubuntu-install-stip.html/"/>
+    <updated>2016-07-06T23:49:27+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/ubuntu-install-stip</id>
+    <content type="html"><![CDATA[<h4 id="install-opencv-using-apt-get">1. Install opencv using apt-get</h4>
+
+<p><code>sh
+sudo apt-get install libopencv-dev
+</code></p>
+
+<!--more-->
+
+<h4 id="install-ffmpeg-using-apt-get">2. Install ffmpeg using apt-get</h4>
+
+<p><code>sh
+sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
+sudo apt-get update
+sudo apt-get install ffmpeg
+</code></p>
+
+<h4 id="in-step-1-opencv-has-been-installed-in-usrlibx8664-linux-gnu">3. In step 1. opencv has been installed in /usr/lib/x86_64-linux-gnu/</h4>
+
+<p><code>sh
+cd /usr/lib/x86_64-linux-gnu/
+ln -s  libopencv_core.so  libcxcore.so.2
+ln -s  libopencv_imgproc.so  libcv.so.2
+ln -s  libopencv_highgui.so libhighgui.so.2
+ln -s  libopencv_ml.so libml.so.2
+ln -s libopencv_video.so libcvaux.so.2
+</code></p>
+
+<h4 id="add-library-path">4. Add library path</h4>
+
+<p><code>sh
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
+OR
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu' &gt;&gt; ~/.bashrc
+</code></p>
+
+<h4 id="test">5. Test</h4>
+
+<p><code>sh
+cd &lt;path/to/stip&gt;
+chmod +x ./bin/stip*
+./bin/stipdet --help
+</code></p>
+
+<p>All Done</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu 14.10 安装 Ffmpeg]]></title>
+    <link href="http://shengmingzhiqing.com/blog/ubuntu-install-ffmpeg.html/"/>
+    <updated>2016-07-06T23:46:05+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/ubuntu-install-ffmpeg</id>
+    <content type="html"><![CDATA[<h4 id="section">1.安装命令：</h4>
+<p><code>sh
+sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
+sudo apt-get update
+sudo apt-get install ffmpeg
+</code>
+<!--more--></p>
+
+<h4 id="using-ffmpeg">2.Using ffmpeg</h4>
+
+<p>Syntax</p>
+
+<p><code>sh
+ffmpeg [[infile options][-i infile]]... {[outfile options] outfile}...
+</code></p>
+
+<p>FFmpeg Examples</p>
+
+<p><code>sh
+ffmpeg -i input.avi -b:v 64k -bufsize 64k output.avi
+</code></p>
+
+<p>强制视频为 24 帧</p>
+
+<p><code>sh
+ffmpeg -i input.avi -r 24 output.avi
+</code></p>
+
+<p>To force the frame rate of the input file (valid for raw formats only) to 1 fps and the frame rate of the output file to 24 fps</p>
+
+<p><code>sh
+ffmpeg -r 1 -i input.m2v -r 24 output.avi
+</code></p>
+
+<p><a href="https://www.ffmpeg.org/ffmpeg.html">完整文档</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在 Ubuntu 上用 Apt-get 安装 Opencv]]></title>
+    <link href="http://shengmingzhiqing.com/blog/ubuntu-opencv.html/"/>
+    <updated>2016-07-06T23:39:46+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/ubuntu-opencv</id>
+    <content type="html"><![CDATA[<h4 id="opencv-">1. 搜索与 OPENCV 相关的软件包：</h4>
+
+<p><code>sh
+$ apt-cache search opencv
+</code>
+<!--more--></p>
+
+<h4 id="section">2. 安装这些软件包（用默认安装）</h4>
+
+<p><code>sh
+$ sudo apt-get install XXX XXX XXX
+</code></p>
+
+<h4 id="opencv--1">3. 查看安装好的（与 OPENCV 相关的库）</h4>
+
+<p><code>sh
+$ pkg-config --cflags --libs opencv
+</code></p>
+
+<h4 id="section-1">4. 写一个小例子</h4>
+
+<p>```cpp
+#include <cv.h>
+#include <highgui.h>
+int main()
+{ //请确定程序目录下有一张测试用的图片 temp.png</highgui.h></cv.h></p>
+
+<pre><code>const char *fileName = "temp.png";
+
+const char *title = "Image" ;
+
+IplImage *image = cvLoadImage(fileName, CV_LOAD_IMAGE_COLOR);
+
+cvNamedWindow(title, CV_WINDOW_AUTOSIZE); cvShowImage(title, image);
+
+cvWaitKey(0);
+
+cvReleaseImage(&amp;image);
+
+cvDestroyWindow(title); return 0; } ```
+</code></pre>
+
+<h4 id="section-2">5. 编译与运行</h4>
+
+<p><code>sh
+$ gcc test.c -o test `pkg-config --cflags --libs opencv`
+$ ./test
+</code></p>
+
+<p>一切搞定</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Elementary Os 美化]]></title>
+    <link href="http://shengmingzhiqing.com/blog/elementary-os-mei-hua.html/"/>
+    <updated>2016-07-06T19:18:34+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/elementary-os-mei-hua</id>
+    <content type="html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#elementary-os-">Elementary OS 美化</a>    <ul>
+      <li><a href="#tweak">1. 安装 tweak</a></li>
+      <li><a href="#terminal-">2. 修改 Terminal 字体大小</a></li>
+      <li><a href="#terminal--1">3. 修改 Terminal 主题</a></li>
+      <li><a href="#oh-my-zsh-agnoster--powerline-">4. 安装 oh-my-zsh “agnoster” 主题依赖的 “powerline” 字体</a></li>
+      <li><a href="#section">5. 添加最小化按钮</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="elementary-os-">Elementary OS 美化</h2>
+
+<h3 id="tweak">1. 安装 tweak</h3>
+
+<p><code>
+sudo apt-add-repository ppa:versable/elementary-update
+sudo apt-get update
+sudo apt-get install elementary-tweaks
+</code>
+<!--more--></p>
+
+<h3 id="terminal-">2. 修改 Terminal 字体大小</h3>
+<p>方法一：安装 dconf-editor</p>
+
+<p><code>
+$ sudo apt-get install dconf-tools
+</code></p>
+
+<p>只针对终端设置字体类型：org -&gt; pantheon -&gt; terminal -&gt; settings -&gt; font 输入要设置的值语法同上。</p>
+
+<p>方法二：使用 gsettings 命令设置</p>
+
+<p><code>
+$ gsettings set org.pantheon.terminal.settings font 'Droid Sans Mono 12'
+</code></p>
+
+<h3 id="terminal--1">3. 修改 Terminal 主题</h3>
+<p>uncomment <code>~/.bashrc</code> 中的 <code>force_color_prompt=yes:</code></p>
+
+<p>主题 <a href="https://github.com/Mayccoll/Gogh">Gogh</a></p>
+
+<p><code>
+$ wget -O xt  http://git.io/v3D4o &amp;&amp; chmod +x xt &amp;&amp; ./xt &amp;&amp; rm xt
+</code></p>
+
+<h3 id="oh-my-zsh-agnoster--powerline-">4. 安装 oh-my-zsh “agnoster” 主题依赖的 “powerline” 字体</h3>
+<p>下载字体 <a href="https://github.com/powerline/fonts">Github</a>，将相应字体拷贝到<code>～/.local/share/fonts/</code>文件夹下</p>
+
+<p><code>
+$ cp Droid\ Sans\ Mono\ for\ Powerline.otf  ～/.local/share/fonts/
+</code>
+修改<code>tweaks</code>-&gt;<code>fonts</code>-&gt;<code>Monospace</code>成<code>Powerline</code>字体 </p>
+
+<h3 id="section">5. 添加最小化按钮</h3>
+<p>在<code>tweaks</code>-&gt;<code>appearence</code>-&gt;<code>Windows Controls</code>中选择<code>Minimize Left</code></p>
+
+<p><code>
+gconftool-2 --set /apps/metacity/general/button_layout --type string "close,minimize,maximize"
+</code></p>
+
+]]></content>
+  </entry>
+  
+</feed>

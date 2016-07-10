@@ -1,0 +1,1512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Free Mind]]></title>
+  <link href="http://shengmingzhiqing.com/atom.xml" rel="self"/>
+  <link href="http://shengmingzhiqing.com/"/>
+  <updated>2016-07-10T16:34:48+08:00</updated>
+  <id>http://shengmingzhiqing.com/</id>
+  <author>
+    <name><![CDATA[Jie Huang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Numpy Tutorial]]></title>
+    <link href="http://shengmingzhiqing.com/blog/python-numpy.html/"/>
+    <updated>2016-07-08T16:32:29+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/python-numpy</id>
+    <content type="html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#ndarray-">1. ndarray 对象</a>    <ul>
+      <li><a href="#section">1.1 创建数组</a></li>
+      <li><a href="#section-1">1.2 存取元素</a></li>
+    </ul>
+  </li>
+  <li><a href="#ufunc-">2. ufunc 运算</a></li>
+  <li><a href="#section-2">3. 广播</a></li>
+  <li><a href="#section-3">4. 文件存取</a>    <ul>
+      <li><a href="#section-4">二进制文件</a></li>
+      <li><a href="#section-5">文本文件</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>NumPy 提供了两种基本的对象：ndarray 和 ufunc 。 ndarray 是存储单一数据类型的多维数组，而 ufunc 则是对数组进行处理的函数.</p>
+
+<!--more-->
+
+<h2 id="ndarray-">1. ndarray 对象</h2>
+
+<h3 id="section">1.1 创建数组</h3>
+<ul>
+  <li>通过 $array()$ 函数传递 Python 的<code>序列对象</code>创建数组</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+</span><span class="line"><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+</span><span class="line">       <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>通过函数 $arange(start, end, step)$ 和 $linspace(start, end, nums)$ 创建等差数组</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+</span><span class="line"><span class="n">array</span><span class="p">([</span> <span class="mf">0.</span> <span class="p">,</span>  <span class="mf">0.1</span><span class="p">,</span>  <span class="mf">0.2</span><span class="p">,</span>  <span class="mf">0.3</span><span class="p">,</span>  <span class="mf">0.4</span><span class="p">,</span>  <span class="mf">0.5</span><span class="p">,</span>  <span class="mf">0.6</span><span class="p">,</span>  <span class="mf">0.7</span><span class="p">,</span>  <span class="mf">0.8</span><span class="p">,</span>  <span class="mf">0.9</span><span class="p">])</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class="line"><span class="n">array</span><span class="p">([</span> <span class="mf">0.</span>        <span class="p">,</span>  <span class="mf">0.11111111</span><span class="p">,</span>  <span class="mf">0.22222222</span><span class="p">,</span>  <span class="mf">0.33333333</span><span class="p">,</span>  <span class="mf">0.44444444</span><span class="p">,</span>
+</span><span class="line">        <span class="mf">0.55555556</span><span class="p">,</span>  <span class="mf">0.66666667</span><span class="p">,</span>  <span class="mf">0.77777778</span><span class="p">,</span>  <span class="mf">0.88888889</span><span class="p">,</span>  <span class="mf">1.</span>        <span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>通过函数 $zeros(), ones(), empty()$ 创建指定形状和类型的数组</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+</span><span class="line"><span class="n">array</span><span class="p">([[</span> <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">],</span>
+</span><span class="line">       <span class="p">[</span> <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">,</span>  <span class="mf">0.</span><span class="p">]])</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-1">1.2 存取元素</h3>
+
+<p>单个元素：
+NumPy 采用元祖 tuple 作为数组的下标。由于元祖的语法只要使用逗号分隔元素即可，所以 a[1,2] 和 a[(1,2)]完全相同</p>
+
+<p>多个元素:</p>
+
+<ul>
+  <li>通过 <strong>切片获取</strong> 的新数组是原始数组的一个视图，它与原始数组共享同一块数据存储空间</li>
+  <li>与使用切片不同，通过 <strong>整数列表，整数数组，布尔数组</strong> 作为下标得到的数组不和原始数组共享数据</li>
+</ul>
+
+<h2 id="ufunc-">2. ufunc 运算</h2>
+<p>ufunc 是 universal function 的缩写，它能对数组中每个元素进行操作。 Numpy 内置的 ufunc 函数都是 C 语言实现的，计算速度快。包括<code>四则运算</code>，<code>比较运算</code>和<code>逻辑运算</code>。</p>
+
+<h2 id="section-2">3. 广播</h2>
+<p>当使用 ufunc 函数对两个数组进行计算时，如果形状不同，会进行如下广播。</p>
+
+<ol>
+  <li>向维数最多的数组看齐，shape 属性中不足的部分都通过在前面加 1 补齐。</li>
+  <li>输出数组的 shape 是输入数组 shape 在各个轴上的最大值。</li>
+  <li>如果输入数组的某个轴长度为 1 或与输入数组对应轴的长度相同，这个数组就能够用来计算，否则出错。</li>
+  <li>当输入数组的某个轴长度为 1 时，沿此轴运算时都用此轴上的第一组值。</li>
+</ol>
+
+<h2 id="section-3">4. 文件存取</h2>
+
+<h3 id="section-4">二进制文件</h3>
+<p>$load()$, $save()$ 用 Numpy 专用的二进制格式保存数据，它们会自动处理元素类型和形状。可用使用 $savez()$ 将多个数组保存到一个文件中。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s">&#39;a.npy&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;a.npy&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p class="warning">$save()$ 和 $savez()$ 输出的二进制文件有特殊的格式，难用其他语言程序读入。</p>
+
+<h3 id="section-5">文本文件</h3>
+<p>$savetxt()$ 和 $loadtxt()$ 可以读写保存一维和二维数组的文本文件</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s">&#39;a.txt&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s">&#39;a.txt&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Tmux Cheatsheet]]></title>
+    <link href="http://shengmingzhiqing.com/blog/tmux-cheatsheet.html/"/>
+    <updated>2016-07-07T00:12:52+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/tmux-cheatsheet</id>
+    <content type="html"><![CDATA[
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+tmux ls    // 列出已有 windows
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<!--more-->
+
+<h4 id="session">Session:</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+tmux new -s name          // 创建 session
+tmux detach                // 挂起 session
+C-b s                      // 切换 session
+C-b $                      // 改名 session
+tmux attach -t name        // 接入 session
+tmux kill-session -t name  // 关闭 session
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<h4 id="window">Window:</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+C-b c          // 创建  window
+C-b ,          // 重命名 window
+C-b w          // 切换  window
+C-b &amp;          // 关闭  window
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<h4 id="pane">Pane:</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+C-b %        // 水平分割成 pane
+C-b &quot;        // 竖直分割成 pane
+C-b x        // 关闭 pane
+</pre></div>
+</div>
+ </figure></notextile></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Install Latex]]></title>
+    <link href="http://shengmingzhiqing.com/blog/ubuntu-install-latex.html/"/>
+    <updated>2016-07-07T00:04:30+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/ubuntu-install-latex</id>
+    <content type="html"><![CDATA[<p>可以在 Ubuntu 安装很多 LaTeX 的分发版，其中一个是 TeX Live。</p>
+
+<ul>
+  <li>使用下面命令可以在 Ubuntu 上安装 Tex Live</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+sudo apt-get install texlive-full
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<!--more-->
+
+<ul>
+  <li>要编辑 LaTeX 文档需要一个编辑器，你可以找到很多编辑器，这里我们推荐 Texmaker</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+sudo apt-get install texmaker
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<ul>
+  <li>在 Ubuntu 下执行下面命令可以打开 Texmaker 编辑器：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+texmaker
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<ul>
+  <li>现在让我们用 Texmaker 创建一个简单的文档，点击 File -&gt; New 然后在新文档中插入如下内容：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+\documentclass{article}
+\begin{document}
+Hello oschina!
+\end{document}
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<ul>
+  <li>接下来使用 File -&gt; Save 将文档保存为一个扩展名为 tex 的文件，然后点击 Quick Build 来编译文档：</li>
+</ul>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://shengmingzhiqing.com/images/2016-07-07-ubuntu-install-latex.jpg" width="800" height="800" title="" /><span class="caption-text"></span></span></p>
+
+<p><a href="http://www.oschina.net/question/12_63776?fromerr=9YSLPyM7">OSCHINA</a> 原创翻译</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Install STIP Under Ubuntu 14.04]]></title>
+    <link href="http://shengmingzhiqing.com/blog/ubuntu-install-stip.html/"/>
+    <updated>2016-07-06T23:49:27+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/ubuntu-install-stip</id>
+    <content type="html"><![CDATA[<h4 id="install-opencv-using-apt-get">1. Install opencv using apt-get</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo apt-get install libopencv-dev
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<!--more-->
+
+<h4 id="install-ffmpeg-using-apt-get">2. Install ffmpeg using apt-get</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
+</span><span class="line">sudo apt-get update
+</span><span class="line">sudo apt-get install ffmpeg
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="in-step-1-opencv-has-been-installed-in-usrlibx8664-linux-gnu">3. In step 1. opencv has been installed in /usr/lib/x86_64-linux-gnu/</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd</span> /usr/lib/x86_64-linux-gnu/
+</span><span class="line">ln -s  libopencv_core.so  libcxcore.so.2
+</span><span class="line">ln -s  libopencv_imgproc.so  libcv.so.2
+</span><span class="line">ln -s  libopencv_highgui.so libhighgui.so.2
+</span><span class="line">ln -s  libopencv_ml.so libml.so.2
+</span><span class="line">ln -s libopencv_video.so libcvaux.so.2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="add-library-path">4. Add library path</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">export </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/lib/x86_64-linux-gnu
+</span><span class="line">OR
+</span><span class="line"><span class="nb">echo</span> <span class="s1">&#39;export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu&#39;</span> &gt;&gt; ~/.bashrc
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="test">5. Test</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd</span> &lt;path/to/stip&gt;
+</span><span class="line">chmod +x ./bin/stip*
+</span><span class="line">./bin/stipdet --help
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>All Done</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu 14.10 安装 Ffmpeg]]></title>
+    <link href="http://shengmingzhiqing.com/blog/ubuntu-install-ffmpeg.html/"/>
+    <updated>2016-07-06T23:46:05+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/ubuntu-install-ffmpeg</id>
+    <content type="html"><![CDATA[<h4 id="section">1.安装命令：</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
+</span><span class="line">sudo apt-get update
+</span><span class="line">sudo apt-get install ffmpeg
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<h4 id="using-ffmpeg">2.Using ffmpeg</h4>
+
+<p>Syntax</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ffmpeg <span class="o">[[</span>infile options<span class="o">][</span>-i infile<span class="o">]]</span>... <span class="o">{[</span>outfile options<span class="o">]</span> outfile<span class="o">}</span>...
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>FFmpeg Examples</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ffmpeg -i input.avi -b:v 64k -bufsize 64k output.avi
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>强制视频为 24 帧</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ffmpeg -i input.avi -r 24 output.avi
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>To force the frame rate of the input file (valid for raw formats only) to 1 fps and the frame rate of the output file to 24 fps</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ffmpeg -r 1 -i input.m2v -r 24 output.avi
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><a href="https://www.ffmpeg.org/ffmpeg.html">完整文档</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Install Dense Trajectory Under MacOS 10.10]]></title>
+    <link href="http://shengmingzhiqing.com/blog/mac-dense-trajectory.html/"/>
+    <updated>2016-07-06T23:43:20+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/mac-dense-trajectory</id>
+    <content type="html"><![CDATA[<h4 id="software">1. software:</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">download ffmpeg-0.11.1, OpenCV-2.4.2 and dense_trajectory_release_v1.2
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<h4 id="install-ffmpeg">2. Install ffmpeg:</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd </span>ffmpeg-0.11.1
+</span><span class="line">./configure
+</span><span class="line">make install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="install-opencv-242">3. Install OpenCV-2.4.2:</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nb">cd </span>OpenCV-2.4.2
+</span><span class="line">cmake
+</span><span class="line">make install
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="install-dense-trajectory">4. Install Dense Trajectory:</h4>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">change the <span class="nb">source </span>code by adding a line code
+</span><span class="line">make
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Done</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在 Ubuntu 上用 Apt-get 安装 Opencv]]></title>
+    <link href="http://shengmingzhiqing.com/blog/ubuntu-opencv.html/"/>
+    <updated>2016-07-06T23:39:46+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/ubuntu-opencv</id>
+    <content type="html"><![CDATA[<h4 id="opencv-">1. 搜索与 OPENCV 相关的软件包：</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nv">$ </span>apt-cache search opencv
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<h4 id="section">2. 安装这些软件包（用默认安装）</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nv">$ </span>sudo apt-get install XXX XXX XXX
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="opencv--1">3. 查看安装好的（与 OPENCV 相关的库）</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nv">$ </span>pkg-config --cflags --libs opencv
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-1">4. 写一个小例子</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="cp">#include &lt;cv.h&gt;</span>
+</span><span class="line"><span class="cp">#include &lt;highgui.h&gt;</span>
+</span><span class="line"><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class="line"><span class="p">{</span> <span class="c1">//请确定程序目录下有一张测试用的图片 temp.png</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fileName</span> <span class="o">=</span> <span class="s">&quot;temp.png&quot;</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">title</span> <span class="o">=</span> <span class="s">&quot;Image&quot;</span> <span class="p">;</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">IplImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="n">cvLoadImage</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="n">CV_LOAD_IMAGE_COLOR</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">cvNamedWindow</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">CV_WINDOW_AUTOSIZE</span><span class="p">);</span> <span class="n">cvShowImage</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">image</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">cvWaitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">cvReleaseImage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">image</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">cvDestroyWindow</span><span class="p">(</span><span class="n">title</span><span class="p">);</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h4 id="section-2">5. 编译与运行</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="nv">$ </span>gcc test.c -o <span class="nb">test</span> <span class="sb">`</span>pkg-config --cflags --libs opencv<span class="sb">`</span>
+</span><span class="line"><span class="nv">$ </span>./test
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>一切搞定</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac 下安装 Python-OpenCV]]></title>
+    <link href="http://shengmingzhiqing.com/blog/mac-python-opencv.html/"/>
+    <updated>2016-07-06T23:33:13+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/mac-python-opencv</id>
+    <content type="html"><![CDATA[<p>首先确保已经安装了 Python</p>
+
+<!--more-->
+
+<ul>
+  <li>Mac 下可以直接使用 brew 来安装 OpenCV，具体步骤如下：</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="c"># add opencv</span>
+</span><span class="line">brew tap homebrew/science
+</span><span class="line">
+</span><span class="line"><span class="c"># install opencv</span>
+</span><span class="line">brew install opencv
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>安装必要的 python 库</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">pip install numpy
+</span><span class="line">pip install matplotlib
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<ul>
+  <li>测试是否安装成功</li>
+</ul>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">import cv2
+</span><span class="line">import numpy  np
+</span><span class="line">matplotlib import pyplot  plt
+</span><span class="line">
+</span><span class="line"><span class="nv">img</span> <span class="o">=</span> cv2.imread<span class="o">(</span><span class="s1">&#39;road.png&#39;</span>, <span class="o">)</span>
+</span><span class="line">plt.imshow<span class="o">(</span>img, <span class="nv">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span>, <span class="nv">interpolation</span><span class="o">=</span><span class="s1">&#39;bicubic&#39;</span><span class="o">)</span>
+</span><span class="line">plt.xticks<span class="o">([])</span>, plt.yticks<span class="o">([])</span> <span class="c"># to hide tick values on X and Y axis</span>
+</span><span class="line">plt.show<span class="o">()</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可参考这篇文章中的方法安装：<a href="http://www.pyimagesearch.com/2015/06/15/install-opencv-3-0-and-python-2-7-on-osx/">Install OpenCV On Mac</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS X 10.10 安装 Caffe 教程]]></title>
+    <link href="http://shengmingzhiqing.com/blog/mac-os-caffe.html/"/>
+    <updated>2016-07-06T23:29:02+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/mac-os-caffe</id>
+    <content type="html"><![CDATA[<p>详细安装步骤:</p>
+
+<ul>
+  <li>Homebrew
+    <ol>
+      <li>根据 http://brew.sh/上面的说明安装 Homebrew 包管理器</li>
+    </ol>
+  </li>
+</ul>
+
+<!--more-->
+
+<ul>
+  <li>Anaconda Python
+    <ol>
+      <li>从 https://store.continuum.io/cshop/anaconda/下载和安装 Anaconda Python 包（其中包括 Caffe 框架用到的 hdf5）</li>
+      <li>export PATH=~/anaconda/bin:$PATH（将 Anaconda 的 bin 路径添加到 PATH 环境变量中）</li>
+    </ol>
+  </li>
+  <li>CUDA
+    <ol>
+      <li>从 https://developer.nvidia.com/cuda-downloads 下载并安装 CUDA 7.0（Caffe 使用 CUDA 进行 GPU 加速计算）</li>
+      <li>从 http://www.nvidia.com/object/mac-driver-archive.html 下载并安装最新的 CUDA 独立驱动（CUDA 安装包自带的驱动版本低）</li>
+      <li>export PATH=/Developer/NVIDIA/CUDA-7.0/bin:$PATH（将 CUDA 的 bin 路径添加到 PATH 环境变量中）</li>
+      <li>export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH（将 CUDA 库的路径添加到系统动态链接库搜索路径中）</li>
+    </ol>
+  </li>
+  <li>BLAS – Intel MKL
+    <ol>
+      <li>由于 Mac OS X 操作系统自带的线性代数 BLAS 库存在一些不稳定的问题，因此我选择安装 Intel MKL 库。如果你是在校大学生，可以使用学校邮箱从 https://software.intel.com/en-us/qualify-for-free-software/student 页面申请 Intel Parallel XE 2015 安装包（后面不要忘记在 Makefile.config 中设置 BLAS:=MKL）</li>
+      <li>确保在安装 Intel Parallel XE 时选择每一个组件（因为缺省情况下不会安装 MKL 组件）</li>
+      <li>cd /opt/intel/mkl/lib/</li>
+      <li>sudo ln -s . /opt/intel/mkl/lib/intel64（因为在编译 Caffe 时 Caffe 会从 MKL 的 intel64 目录中去搜索 MKL 的库，但是在安装 MKL 后，MKL 的 lib 目录下并没有 intel64 这个目录，所以需要建立一个 intel64 目录到 lib 目录的软链接）</li>
+    </ol>
+  </li>
+  <li>cuDNN
+    <ol>
+      <li>从 https://developer.nvidia.com/cudnn 页面下载并安装 cuDNN 库（别忘了在 Makefile.config 中取消 USE_CUDNN := 1 的注释）</li>
+      <li>tar -xzvf cudnn-6.5-osx-v2.tgz</li>
+      <li>cd cudnn-6.5-osx-v2</li>
+      <li>sudo cp lib* /usr/local/cuda/lib（拷贝 cuDNN 的链接库文件）</li>
+      <li>sudo cp cudnn.h /usr/local/cuda/include/（拷贝 cuDNN 的头文件）</li>
+    </ol>
+  </li>
+  <li>通过 Homebrew 安装依赖项
+    <ol>
+      <li>brew edit opencv
+2.将下面两行（替换的原因是在编译 Caffe 的 Python 接口时让 Caffe 链接到 Anaconda 的 Python 库，而不是链接到系统的 Python 库）
+args « “-DPYTHON#{py_ver}_LIBRARY=#{py_lib}/libpython2.7.#{dylib}”
+args « “-DPYTHON#{py_ver}_INCLUDE_DIR=#{py_prefix}/include/python2.7”
+替换为
+args « “-DPYTHON_LIBRARY=#{py_prefix}/lib/libpython2.7.dylib”
+args « “-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7”</li>
+      <li>brew install –fresh -vd snappy leveldb gflags glog szip lmdb homebrew/science/opencv</li>
+      <li>brew install –build-from-source –with-python –fresh -vd protobuf（protobuf 需要从源代码进行编译）</li>
+      <li>brew install –build-from-source –fresh -vd boost boost-python（boost 需要从源代码进行编译）</li>
+    </ol>
+  </li>
+  <li>从 Github 上面克隆 Caffe 的代码
+    <ol>
+      <li>git clone https://github.com/BVLC/caffe.git</li>
+      <li>cd caffe</li>
+      <li>cp Makefile.config.example Makefile.config</li>
+    </ol>
+  </li>
+  <li>配置 Makefile.config
+    <ol>
+      <li>设置 BLAS := mkl</li>
+      <li>取消 USE_CUDNN := 1 注释</li>
+      <li>检查并设置 Python 路径</li>
+    </ol>
+  </li>
+  <li>设置环境变量
+    <ol>
+      <li>export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/cuda/lib:$HOME/anaconda/lib:/usr/local/lib:/usr/lib:/opt/intel/composer_xe<em>2015.2.132/compiler/lib:/opt/intel/composer_xe</em>2015.2.132/mkl/lib</li>
+    </ol>
+  </li>
+  <li>编译 Caffe
+    <ol>
+      <li>make clean</li>
+      <li>make all</li>
+      <li>make test</li>
+      <li>make runtest</li>
+      <li>make pycaffe</li>
+      <li>make distribute</li>
+    </ol>
+  </li>
+</ul>
+
+<p>英文原文地址：<a href="http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/">How to install Caffe on Mac OS X 10.10 for dummies</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Greedy Algorithm]]></title>
+    <link href="http://shengmingzhiqing.com/blog/greedy-algorithm.html/"/>
+    <updated>2016-07-06T22:44:20+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/greedy-algorithm</id>
+    <content type="html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#section">1. 活动选择问题</a>    <ul>
+      <li><a href="#section-1">动态规划</a></li>
+      <li><a href="#section-2">贪心选择</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-3">2. 算法实现</a></li>
+  <li><a href="#section-4">3. 算法原理</a>    <ul>
+      <li><a href="#section-5">贪心选择性质</a></li>
+      <li><a href="#section-6">最优子结构</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-7">4. 贪心对动态规划</a></li>
+</ul>
+
+<p>贪心算法在每一步都做出当时看起来最佳的选择。它总是做出局部最优的选择，寄希望这样的选择能导致全局最优解。</p>
+
+<!--more-->
+
+<h2 id="section">1. 活动选择问题</h2>
+
+<p>目标是选出一个最大的相互兼容的活动集合。</p>
+
+<h3 id="section-1">动态规划</h3>
+<p>设 $s_{ij}$ 表示在活动 $a_i$ 结束之后开始，且在 $a_j$ 开始之前结束的那些活动的集合。如果 $c[i,j]$ 表示集合的最优解大小，则,</p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+
+c[i,j] =\left\{\begin{matrix}
+0 & if(s_{ij}\neq \phi ) \\ 
+\underset{a_k\in s_{ij}}{max} \{c[i,k] + c[k,j] + 1\} & if(s_{ij}= \phi )
+\end{matrix}\right.
+ %]]&gt;</script>
+
+<p>因为面临这样的选择：$s_{ij}$ 中的最优解包含哪个活动 $a_k$。所以动态规划算法需要考查它所有的活动。</p>
+
+<h3 id="section-2">贪心选择</h3>
+<p>每次选择 $s$ 中最早结束的活动。</p>
+
+<h2 id="section-3">2. 算法实现</h2>
+
+<p>贪心算法通常都是自顶向下的设计：做出一个选择，然后求解剩下的那个子问题，而不是自底向上地求解出很多子问题，然后再做出选择。此外也可以很容易地将算法转换为迭代的形式。</p>
+
+<h2 id="section-4">3. 算法原理</h2>
+
+<p>贪心算法的两个关键要素：贪心选择性质和最优子结构</p>
+
+<h3 id="section-5">贪心选择性质</h3>
+<p>可以通过做出局部最优的选择来构造全局最优解。这也是贪心算法与动态规划的不同之处，在动态规划中每个步骤都有多种选择，选择通常依赖于子问题的解，例如：</p>
+
+<script type="math/tex; mode=display">
+c[i,j]=\underset{i\leq k\leq j}{max}\{c[i,k]+c[k,j]+1\}
+</script>
+
+<p>当然，我们必须证明每个步骤做出贪心选择能生成全局最优解。首先考查某个子问题的最优解，然后用贪心选择替换某个其他选择来修改此解，从而得到一个相似的最优解（子问题的最优解）。</p>
+
+<h3 id="section-6">最优子结构</h3>
+<p>如果一个问题的最优解包含了其他子问题的最优解，则称此问题具有最优子结构性质。</p>
+
+<h2 id="section-7">4. 贪心对动态规划</h2>
+
+<p>两种算法都利用了最优子结构性质，很相似。但是两者有细微差别。比如<code>0-1 背包问题</code>和<code>分数背包问题</code>。<code>分数背包问题</code>可以用贪心算法，但是<code>0-1 背包问题</code>不能用贪心算法。因为对<code>0-1 背包问题</code>使用贪心算法时不能保证背包装满，而空闲的空间降低了单位重量的价值。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamic Programming]]></title>
+    <link href="http://shengmingzhiqing.com/blog/dynamic-programming.html/"/>
+    <updated>2016-07-06T21:02:53+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/dynamic-programming</id>
+    <content type="html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#section">动态规划算法四步骤：</a></li>
+  <li><a href="#section-1">动态规划原理</a>    <ul>
+      <li><a href="#section-2">最优子结构</a></li>
+      <li><a href="#section-3">重叠子问题</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-4">动态规划两种等价的实现方法</a>    <ul>
+      <li><a href="#top-down-with-memoization">带备忘的自顶向下 (top-down with memoization)</a></li>
+      <li><a href="#bottom-up-method">自底向上 (bottom-up method)</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-5">应用</a>    <ul>
+      <li><a href="#section-6">1. 石子合并问题</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>动态规划应用于子问题重叠问题，分治算法会反复求解那些公共子问题，而动态规划算法会对子问题只求解一次，将其解保存在一个表格中，避免不必要的计算。</p>
+
+<!--more-->
+
+<h2 id="section">动态规划算法四步骤：</h2>
+<ol>
+  <li>刻画一个最优解的结构特征 (最优子结构)</li>
+  <li>递归地定义最优解的值</li>
+  <li>计算最优解的值，通常采用自底向上的方法</li>
+  <li>利用计算出的信息构造一个最优解</li>
+</ol>
+
+<h2 id="section-1">动态规划原理</h2>
+<p>适用动态规划方法求解的最优问题应该具备两个要素：<strong>最优子结构</strong>和<strong>子问题重叠</strong></p>
+
+<h3 id="section-2">最优子结构</h3>
+<p>如果原问题的最优解包含其子问题的最优解，就称此问题具有最优子结构。</p>
+
+<p>发掘最优子结构性质的过程中，遵循如下模式：</p>
+
+<ol>
+  <li>证明问题最优解的第一个组成部分是做出一个选择，做出这次选择会产生一个或多个待解决的子问题。</li>
+  <li>在第一步选择中，假定已经知道哪种选择会得到最优解。你现在并不关心这种选择具体是如何得到的，只是假定已经知道这种选择。</li>
+  <li>给定可获得最优解的选择后，你确定这次选择会产生哪些子问题，以及如何最好地刻画子问题空间。</li>
+  <li>利用“剪切-粘贴” (cut-paste) 技术证明：作为构成原问题最优解的组成部分，每一个子问题的最优解就是它本身的最优解。</li>
+</ol>
+
+<p>我们可以用子问题的个数和每个子问题需要考察多少种选择这两个因素的乘积来粗略分析动态规划算法的运行时间。</p>
+
+<p>在动态规划方法中，通常自底向上地使用最优子结构，也就是说，首先求得子问题的最优解，然后在其中进行选择来求原问题的最优解。</p>
+
+<p>注：动态规划子问题无关：同一个原问题的一个子问题的解不影响另一个子问题的解。放过来说，就是要避免求解一个子问题时用到了某些资源，导致这些资源在求解其他子问题时不可用。</p>
+
+<h3 id="section-3">重叠子问题</h3>
+<p>如果递归算法反复求解相同的子问题，称最优化问题具有重叠子问题 (overlapping subproblems) 性质。</p>
+
+<h2 id="section-4">动态规划两种等价的实现方法</h2>
+
+<h3 id="top-down-with-memoization">带备忘的自顶向下 (top-down with memoization)</h3>
+<p>仍按自然递归形式编写过程，但过程中会保存每个子问题的解。当需要一个子问题的解时，过程首先检查是否已经保存过此解。如果是则直接返回保存的结果；否则按通常方式计算这个子问题，并保存结果。</p>
+
+<h3 id="bottom-up-method">自底向上 (bottom-up method)</h3>
+<p>将子问题按规模排序，按由小自大顺序进行求解。当求解某个子问题时，它所依赖的那些更小的子问题都已经求解完毕，结果已经保存。</p>
+
+<p>两种算法具有相同的渐进运行时间，但自底向上算法会比自顶向下备忘算法快(相差一个常量系数)，因为自底向上算法没有递归调用的开销。</p>
+
+<h2 id="section-5">应用</h2>
+
+<h3 id="section-6">1. 石子合并问题</h3>
+<p>（1）有 N 堆石子，现要将石子有序的合并成一堆，规定如下：每次只能移动<strong>任意</strong>的 2 堆石子合并，合并花费为新合成的一堆石子的数量。求将这 N 堆石子合并成一堆的总花费最小（或最大）。</p>
+
+<p>分析：当然这种情况是最简单的情况，合并的是任意两堆，直接贪心即可，每次选择最小的两堆合并。本问题实际上就是哈夫曼的变形。</p>
+
+<p>（2） 有 N 堆石子，现要将石子有序的合并成一堆，规定如下：每次只能移动<strong>相邻</strong>的 2 堆石子合并，合并花费为新合成的一堆石子的数量。求将这 N 堆石子合并成一堆的总花费最小（或最大）。</p>
+
+<p>分析：我们熟悉矩阵连乘，知道矩阵连乘也是每次合并相邻的两个矩阵，那么石子合并可以用矩阵连乘的方式来解决。</p>
+
+<p>设 dp[i][j] 表示第 i 到第 j 堆石子合并的最优值，sum[i][j] 表示第 i 到第 j 堆石子的总数量。那么就有状态转移公式：</p>
+
+<script type="math/tex; mode=display">dp[i][j]=\left\{\begin{matrix}
+0, if(i =j) \\ 
+min(dp[i][k]+dp[i][k+1]+sum[i][j]), other
+\end{matrix}\right.</script>
+
+<p>（3） 问题(2)的是在石子排列是直线情况下的解法，现在考虑把石子改为环形排列。因为石子绕成一个环，不是一条直线，所以 dp[i][j] 的含义应为从第 i 堆开始，合并 j 堆石子能得到的最优值。则易得状态转移方程为:</p>
+
+<script type="math/tex; mode=display">dp[i][j] = min(dp[i][k]+dp[(i+k)\%n][j-k]+sum[i][j])</script>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sorting]]></title>
+    <link href="http://shengmingzhiqing.com/blog/sorting.html/"/>
+    <updated>2016-07-06T20:38:32+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/sorting</id>
+    <content type="html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#section">排序的稳定性</a></li>
+  <li><a href="#bubble-sort">冒泡排序 (Bubble Sort)</a></li>
+  <li><a href="#selection-sort">选择排序 (Selection Sort)</a></li>
+  <li><a href="#insertion-sort">插入排序 (Insertion Sort)</a></li>
+  <li><a href="#shell-sort">希尔排序 (Shell Sort)</a></li>
+  <li><a href="#heap-sort">堆排序 (Heap Sort)</a></li>
+  <li><a href="#merge-sort">归并排序 (Merge Sort)</a></li>
+  <li><a href="#quick-sort">快速排序 (Quick Sort)</a></li>
+  <li><a href="#bucket-sort">桶排序 (Bucket Sort)</a></li>
+  <li><a href="#counting-sort">计数排序 (Counting Sort)</a></li>
+</ul>
+
+<p>希尔排序相当于插入排序，同属于插入排序类；堆排序相当于选择排序的升级，同属于选择类排序；而快速排序是冒泡排序的升级，同属于交换排序类。</p>
+
+<!--more-->
+
+<h3 id="section">排序的稳定性</h3>
+<p>假设 $k_i = k_j$，且在排序前 $i&lt;j$。如果排序后仍然  $i&lt;j$，则称所用排序算法是稳定的。否则排序算法不稳定。</p>
+
+<hr />
+
+<h3 id="bubble-sort">冒泡排序 (Bubble Sort)</h3>
+<p>思想：两两比较相邻记录的数值，如果反序则交换，直到没有反序的记录为止。</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://shengmingzhiqing.com/images/2016-07-06-sorting-bubble-sort.png" width="512" height="512" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：时间复杂度为 $O(n^2)$</p>
+
+<hr />
+
+<h3 id="selection-sort">选择排序 (Selection Sort)</h3>
+<p>思想：在确定第 $i$ 个位置的数值时，从 $[i+1, n)$中选出数值最小的记录，并和第 $i$ 个记录交换。</p>
+
+<p>复杂度：时间复杂度为 $O(n^2)$，尽管与冒泡排序相同，但是性能上优于冒泡排序。</p>
+
+<hr />
+
+<h3 id="insertion-sort">插入排序 (Insertion Sort)</h3>
+<p>思想：将一个记录插入到已经排好序的有序表中，从而得到新的、录数增加 1 的有序表。</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://shengmingzhiqing.com/images/2016-07-06-sorting-insertion-sort.png" width="512" height="256" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：时间复杂度为 $O(n^2)$，但是性能上优于冒泡排序和选择排序。</p>
+
+<hr />
+
+<h3 id="shell-sort">希尔排序 (Shell Sort)</h3>
+<p>插入排序的效率在某些时候很高，比如，记录本身就是基本有序的。还有就是记录数比较少时，直接插入的优势比较明显。希尔排序是插入排序的改进。</p>
+
+<p>思想：分割待排序的记录，减少待排序记录的个数。将相距某个“增量”的记录组成一个子序列（实现跳跃式移动），在子序列内分别进行插入排序，使得结果基本有序。最后对整个序列插入排序。</p>
+
+<p>复杂度：时间复杂度为 $O(n^{3/2})$。</p>
+
+<p>注：由于记录是跳跃式的移动，希尔排序不是稳定的排序算法。</p>
+
+<hr />
+
+<h3 id="heap-sort">堆排序 (Heap Sort)</h3>
+<p>如果可以做到在每次选择到最小记录的同时，并根据比较结果对其记录做出相应的调整，那样排序的总体效率会很高。堆排序就是对选择排序的改进。</p>
+
+<p>思想：将待排序序列构造成一个大顶堆，此时，整个序列的最大值就是堆顶的根结点。将它移走，然后将剩余 n-1 个记录重新构造成一个大顶堆，这样就能得到 n 个元素中次大的值。如此反复得到一个有序序列。</p>
+
+<p>复杂度：堆初始化的时间复杂度是 $O(n)$，重建堆的时间复杂度为 $O(nlogn)$。堆排序堆原始序列的状态不敏感，所以它的最好，平均，最坏时间复杂度是 $O(nlogn)$。</p>
+
+<p>注：由于记录的比较和交换是跳跃式进行的，堆排序不是稳定的排序算法。</p>
+
+<hr />
+
+<h3 id="merge-sort">归并排序 (Merge Sort)</h3>
+<p>思想：将待排序序列看做是 n 个有序的子序列，每个子序列的长度为 1，然互两两归并得到 [n/2] 个长度为 2 或 1 的有序子序列，再两两归并。如此重复直到长度为 n 的有序序列为止。</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://shengmingzhiqing.com/images/2016-07-06-sorting-merge-sort.png" width="512" height="256" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：最好，平均，最坏时间复杂度都是 $O(nlogn)$。由于在 Merge 的过程中需要与记录序列同样数量的存储空间存放结果，所以空间复杂度是 $O(n)$。</p>
+
+<p>注：归并排序需要两两比较，不存在跳跃，因此归并排序是一种稳定的排序算法。</p>
+
+<hr />
+
+<h3 id="quick-sort">快速排序 (Quick Sort)</h3>
+<p>思想：通过一趟排序将记录分割成独立的两部分，其中一部分记录的数值比另一部分记录的数值小。然后分别对这两部分继续排序，以达到整个序列有序的目的。</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://shengmingzhiqing.com/images/2016-07-06-sorting-quick-sort.png" width="512" height="256" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：最有情况下，Partition 每次划分的很均匀，时间复杂度为 $O(nlogn)$。最坏情况下，待排序列为正序或者反序，时间复杂度为 $O(n^2)$。平均情况下，时间复杂度可证明为 $O(nlogn)$。</p>
+
+<p>注：由于记录的比较和交换是跳跃式进行的，快速排序不是稳定的排序算法。</p>
+
+<hr />
+
+<h3 id="bucket-sort">桶排序 (Bucket Sort)</h3>
+<p>之前介绍的排序算法都是基于两个数值之间的比较来确定位置的先后关系。桶排序则不是，所以它比快排还快，能够在  $O(n)$ 的时间内完成。但是缺点是非常耗费空间，如果序列中最大数为 m，那么需要 m 个桶。</p>
+
+<p>思想：把记录 a[i] 放入第 a[i] 个桶中。</p>
+
+<p>[6 2 4 1 5 9]           待排数组</p>
+
+<p>[0 1 2 0 4 5 6 0 0 9]   空桶</p>
+
+<p>[0 1 2 3 4 5 6 7 8 9]   桶编号(实际不存在)</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://shengmingzhiqing.com/images/2016-07-06-sorting-bucket-sort.png" width="512" height="256" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：时间复杂度$O(n)$</p>
+
+<p>注：桶排序是稳定的</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span><span class="p">[]</span> <span class="n">bucket_sort</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">unsorted</span><span class="p">,</span> <span class="kt">int</span> <span class="n">maxNumber</span> <span class="o">=</span> <span class="mi">99</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">   <span class="kt">int</span><span class="p">[]</span> <span class="n">sorted</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">maxNumber</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+</span><span class="line">   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">unsorted</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">	   <span class="n">sorted</span><span class="p">[</span><span class="n">unsorted</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">unsorted</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class="line">   <span class="k">return</span> <span class="n">sorted</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<hr />
+
+<h3 id="counting-sort">计数排序 (Counting Sort)</h3>
+<p>思想：计数排序假设 n 个输入元素中的每一个都是介于 [0, k] 的整数，此处 k 为某个整数。计数排序顾名思义离不开计数，我们要计的是输入元素中相同元素出现的次数。对每一个输入元素 x，确定小于 x 的元素的个数，那样排序之后，x 在最终输出数组中的位置就可以确定了。</p>
+
+<p>假定输入数组为 A[1..n]，他们的值均位于 0~k 之间，输出排序之后的数组为 B[1..n]，以及临时存储数组 C[0..k]。计数排序的伪代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="n">memset</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">C</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">//C 数组置零  </span>
+</span><span class="line"><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span> <span class="n">to</span> <span class="n">n</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">++</span><span class="p">;</span>          <span class="c1">//统计输入数组中相同元素的个数  </span>
+</span><span class="line"><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span> <span class="n">to</span> <span class="n">k</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span> <span class="c1">//C[i]表示输入数组中小于或者等于 i 的元素个数  </span>
+</span><span class="line"><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="n">n</span> <span class="n">downto</span> <span class="mi">1</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">B</span><span class="p">[</span><span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>  <span class="c1">//把每一个 A[i]放到输出数组中相应位置上  </span>
+</span><span class="line">    <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">--</span><span class="p">;</span>          <span class="c1">//如果有几个相同元素时,当然不能放在同一个位置了。</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>计数排序特点：
+1.  提前必须是已知待排序的关键字为整型且范围已知。
+2.  时间复杂度为 O(n+k)，不是基于比较的排序算法，因此效率非常之高。
+3.  稳定性好，这个是计数排序非常重要的特性，可以用在后面介绍的基数排序中。
+4.  但需要一些辅助数组，如 C[0..k]，因此待排序的关键字范围 0~k 不宜过大。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Topological Sorting]]></title>
+    <link href="http://shengmingzhiqing.com/blog/topological-sorting.html/"/>
+    <updated>2016-07-06T20:37:06+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/topological-sorting</id>
+    <content type="html"><![CDATA[<h3 id="section">定义</h3>
+<p>在一个表示工程的有向图中，用定点表示活动，用弧表示活动之间的优先关系，这样的有向图为顶点表示活动的网，称为 AOV 网(Activity on Vertex Network)。</p>
+
+<!--more-->
+
+<p>设 G=(V, E) 是一个具有 n 个顶点的有向图， 若顶点 $v_i$ 到 $v_j$ 有一条路径，则在顶点序列中顶点 $v_i$ 必须在顶点 $v_j$  之前，称这样的序列为一个拓扑排序。</p>
+
+<h3 id="section-1">算法</h3>
+<p>从 AOV 网中选择一个入度为 0 的顶点输出，然后删除次顶点，并删除以此顶点为起点的弧，继续重复此步骤，直到网络输出全部顶点或者 AOV 网中不存在入度为 0 的顶点为止。</p>
+
+<h3 id="section-2">应用</h3>
+<p>某大型项目由 n 个组件 N1, N2……Nn 构成，每个组件都可以独立编译，但是某些组件的编译依赖于其它组件（即某些组件只能在其它组件编译完成后才能编译），设计算法给出统计过程。</p>
+
+<p>思路：拓扑排序算法</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Back Tracking]]></title>
+    <link href="http://shengmingzhiqing.com/blog/back-tracking.html/"/>
+    <updated>2016-07-06T20:34:10+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/back-tracking</id>
+    <content type="html"><![CDATA[<h4 id="section">1. 概念</h4>
+<p>　　回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
+　　许多复杂的，规模较大的问题都可以使用回溯法，有“通用解题方法”的美称。</p>
+
+<!--more-->
+
+<h4 id="section-1">2.基本思想</h4>
+<p>　　在包含问题的所有解的解空间树中，按照深度优先搜索的策略，从根结点出发深度探索解空间树。当探索到某一结点时，要先判断该结点是否包含问题的解，如果包含，就从该结点出发继续探索下去，如果该结点不包含问题的解，则逐层向其祖先结点回溯（其实回溯法就是对隐式的深度优先搜索算法）。</p>
+
+<h4 id="section-2">3. 解题步骤</h4>
+<ol>
+  <li>针对所给问题，确定问题的解空间，问题的解空间应至少包含问题的一个（最优）解。</li>
+  <li>确定结点的扩展搜索规则</li>
+  <li>以深度优先方式搜索解空间，并在搜索过程中用剪枝函数避免无效搜索。</li>
+</ol>
+
+<h4 id="section-3">4. 算法框架</h4>
+<ol>
+  <li>
+    <p>问题框架：
+设问题的解是一个 n 维向量 (a1,a2,………,an)，约束条件是 ai(i=1,2,3,…..,n) 之间满足某种条件，记为 f(ai)。</p>
+  </li>
+  <li>
+    <p>递归的算法框架：
+回溯法是对解空间的深度优先搜索，在一般情况下使用递归函数来实现回溯法比较简单，其中 i 为搜索的深度，框架如下：</p>
+  </li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+</span><span class="line"><span class="k">try</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">  <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="n">n</span><span class="p">)</span>
+</span><span class="line">    <span class="err">输出结果</span><span class="p">;</span>
+</span><span class="line">  <span class="k">else</span>
+</span><span class="line">  <span class="p">{</span>
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="err">下界</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="err">上界</span><span class="p">;</span> <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">// 枚举 i 所有可能的路径</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">      <span class="k">if</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>     <span class="c1">// 满足限界函数和约束条件</span>
+</span><span class="line">      <span class="p">{</span>
+</span><span class="line">        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+</span><span class="line">        <span class="p">...</span>          <span class="c1">// 其他操作</span>
+</span><span class="line">        <span class="k">try</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+</span><span class="line">        <span class="err">回溯前的清理工作（如</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="err">置空值等）</span><span class="p">;</span>
+</span><span class="line">      <span class="p">}</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac 下制作 Ubuntu 安装 U 盘]]></title>
+    <link href="http://shengmingzhiqing.com/blog/mac-make-ubuntu-installation-u.html/"/>
+    <updated>2016-07-06T19:41:48+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/mac-make-ubuntu-installation-u</id>
+    <content type="html"><![CDATA[<p>测试环境版本：Mac 10.8.4 ubuntu 13.04</p>
+
+<p>1.将 ISO 转换成 IMG:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">hdiutil convert -format UDRW -o ubuntu-13.04-desktop-i386.img ubuntu-13.04-desktop-i386.iso
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<p>2.查看磁盘设备名，找到 U 盘的设备名</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">diskutil list
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>3.卸载 U 盘</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">diskutil umountDisk /dev/disk1
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>4.使用 dd 将 ubuntu 的 img 写入 U 盘</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">sudo dd <span class="k">if</span><span class="o">=</span>ubuntu-13.04-desktop-i386.img.dmg <span class="nv">of</span><span class="o">=</span>/dev/disk1 <span class="nv">bs</span><span class="o">=</span>1m
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>5.完成！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[读懂复杂 C 声明的黄金法则]]></title>
+    <link href="http://shengmingzhiqing.com/blog/c-declaration-gloden-rule.html/"/>
+    <updated>2016-07-06T19:37:28+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/c-declaration-gloden-rule</id>
+    <content type="html"><![CDATA[<h3 id="section">黄金法则：</h3>
+<p>从声明的变量名开始，先向右看，再向左看，再向右看，再向左看 。</p>
+
+<h3 id="section-1">举例说明：</h3>
+
+<h4 id="section-2">例子 1</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>a 的右边什么都没有，向左看 int，说明 a 是一个 int 型变量。
+<!--more-->
+#### 例子 2</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">char</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>向右看，什么都没有; 向左看是*, 说明 a 是一个指针; 再向右看，什么都没有; 再向左看是 char，说明 a 是一个指向 char 的指针。</p>
+
+<h4 id="section-3">例子 3</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">[];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>向右看，[]说明 a 是一个数组；向左看，*说明数组的每个元素是个指针；再向右看，什么都没有; 再向左看，int，每个指针指向一个整数。综合来看，a 是一个数组，数组每个元素是指向整数的指针。</p>
+
+<h4 id="section-4">例子 4</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span> <span class="o">*</span> <span class="k">const</span> <span class="n">a</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>向 a 右边看，什么都没有。一直向左看，先是 const，说明 a 是不可修改的，然后是*，说明 a 是一个指针；然后是 int，说明指针指向整数。综合来看，a 是一个不可修改的指针，它指向整数。</p>
+
+<h4 id="section-5">例子 5</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">checkout</span><span class="p">)();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>向右看，遇见 ) 返回，再向左看是*，说明 checkout 是个指针。再向右看，是()，说明这个指针指向函数; 向左看是 void，说明函数返回 void。总的来看， checkout 是一个指向返回 void 的函数的指针。</p>
+
+<h4 id="section-6">例子 6</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">checkout</span><span class="p">[])();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>向右看，[]说明 checkout 是一个数组；向左看， * 说明数组每个元素是个指针。向右看，遇见)返回；再向左看，遇见(返回。再向右看，是()，说明数组内每个指针指向函数; 向左看是 void，说明每个函数返回 void。
+总的来看， checkout 是一个数组，数组内都是指向返回 void 的函数的指针。</p>
+
+<h4 id="section-7">例子 7</h4>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">checkout</span><span class="p">)[])();</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>向右看，遇见)返回; 向左看，*说明 checkout 是个指针，遇到(跳出一层()。向右看，[]说明 checkout 指向的是一个数组；向左看， *说明数组每个元素是个指针。向右看遇见)，向左看遇见(，跳出一层()。向右看，()说明数组每个元素指向一个函数；再向左看，void 说明每个数组元素指向的函数返回 void。
+总结：checkout 是一个指针，指向一个数组，每个数组元素都是一个指向返回 void 函数的指针。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[C++ Sort 的比较函数写法]]></title>
+    <link href="http://shengmingzhiqing.com/blog/c-plus-plus-sort-cmp.html/"/>
+    <updated>2016-07-06T19:33:30+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/c-plus-plus-sort-cmp</id>
+    <content type="html"><![CDATA[<p>定义排序函数：</p>
+
+<h3 id="section">方法 1：声明外部比较函数</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="kt">bool</span> <span class="n">Less</span><span class="p">(</span><span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s2</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">s1</span><span class="p">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">s2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span> <span class="c1">//从小到大排序</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">sutVector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">stuVector</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">Less</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<p>注意：比较函数必须写在类外部（全局区域）或声明为静态函数</p>
+
+<p>当 comp 作为类的成员函数时，默认拥有一个 this 指针，这样和 sort 函数所需要使用的排序函数类型不一样。</p>
+
+<p>否则，会出现错误</p>
+
+<h3 id="section-1">方法 2：重载类的比较运算符</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s2</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">s1</span><span class="p">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">s2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span> <span class="c1">//从小到大排序</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">sutVector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">stuVector</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-2">方法 3：声明比较类</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">struct</span> <span class="n">Less</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="kt">bool</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s2</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">s1</span><span class="p">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">s2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span> <span class="c1">//从小到大排序</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">};</span>
+</span><span class="line">
+</span><span class="line"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">sutVector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">stuVector</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">Less</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[算法复杂度分析]]></title>
+    <link href="http://shengmingzhiqing.com/blog/algorithm-complexity.html/"/>
+    <updated>2016-07-06T19:22:33+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/algorithm-complexity</id>
+    <content type="html"><![CDATA[<p><strong>算法分析指的是分析算法的代码，估计出操作的数目，或称算法的“步数”。</strong>
+之所以分析算法步数，是因为：</p>
+
+<blockquote>
+  <ol>
+    <li>步数确实能反映执行时间——步数越多执行时间就越长；</li>
+    <li>算法的步数不依赖于平台，更 容易分析和比较。</li>
+  </ol>
+</blockquote>
+
+<!--more-->
+
+<p>算法分析不仅要考虑算法步数与 n 的关系，更重要的是还要考虑“当 n 逐渐增大时” 算法复杂度会如何变化。因此说 A 算法比 B 算法好，并不是指对于特定的 n，A 比 B 节省 50%的时间，而是指随着 n 的不断增大，A 对 B 的优势会越来越大。</p>
+
+<h3 id="o-">大 O 表示法</h3>
+<p>“大 O 表示法”根据“步数” $f(n)$ 函数的增长率特性来刻画函数，可以用来描述算法的复杂度。</p>
+
+<p>如果存在正常数 c，使得只要 n 足够大（例如超过某个 n0）， 函数 $f(n)$ 的值都不会超过 $c×g(n)$，即当 n &gt; n0 时，</p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+ f(n) <= c \times g(n)  %]]&gt;</script>
+
+<p>则可记为</p>
+
+<script type="math/tex; mode=display"> f(n) = O(g(n)) </script>
+
+<p>其中，n 对应于问题规模，$f(n)$ 是算法需执行的步数，$g(n)$ 是表示增长数 量级的某个函数。</p>
+
+<p class="info">说算法的复杂度为 $O(g(n))$，意思就是当 n 足够大时，该算法的执行步数（时间）永远不会超过  $c×g(n)$。</p>
+
+<p>实际分析算法时，为了使 $O(g(n))$ 中的 $g(n)$ 函数尽量简单，在得到算法的步数表达式 $f(n)$ 之后，可以利用两条规则来简化推导，直接得出 $f(n)$ 的大 O 表示。规则如下：</p>
+
+<p class="info">（1）如果 $f(n)$ 是若干项之和，则只需保留最高次项，省略所有低次项；
+（2）如果 $f(n)$ 是若干项之积，则可省略任何常数因子。</p>
+
+<p>以上两条规则告诉我们，在分析算法代码时可以忽略许多代码，而只关注那些嵌套层数最多、并且每一层循环的循环次数都与问题规模 n 有关的循环。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Elementary Os 美化]]></title>
+    <link href="http://shengmingzhiqing.com/blog/elementary-os-mei-hua.html/"/>
+    <updated>2016-07-06T19:18:34+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/elementary-os-mei-hua</id>
+    <content type="html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#elementary-os-">Elementary OS 美化</a>    <ul>
+      <li><a href="#tweak">1. 安装 tweak</a></li>
+      <li><a href="#terminal-">2. 修改 Terminal 字体大小</a></li>
+      <li><a href="#terminal--1">3. 修改 Terminal 主题</a></li>
+      <li><a href="#oh-my-zsh-agnoster--powerline-">4. 安装 oh-my-zsh “agnoster” 主题依赖的 “powerline” 字体</a></li>
+      <li><a href="#section">5. 添加最小化按钮</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="elementary-os-">Elementary OS 美化</h2>
+
+<h3 id="tweak">1. 安装 tweak</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">sudo apt-add-repository ppa:versable/elementary-update
+</span><span class="line">sudo apt-get update
+</span><span class="line">sudo apt-get install elementary-tweaks</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<h3 id="terminal-">2. 修改 Terminal 字体大小</h3>
+<p>方法一：安装 dconf-editor</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ sudo apt-get install dconf-tools</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>只针对终端设置字体类型：org -&gt; pantheon -&gt; terminal -&gt; settings -&gt; font 输入要设置的值语法同上。</p>
+
+<p>方法二：使用 gsettings 命令设置</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ gsettings set org.pantheon.terminal.settings font 'Droid Sans Mono 12'</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="terminal--1">3. 修改 Terminal 主题</h3>
+<p>uncomment <code>~/.bashrc</code> 中的 <code>force_color_prompt=yes:</code></p>
+
+<p>主题 <a href="https://github.com/Mayccoll/Gogh">Gogh</a></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ wget -O xt  http://git.io/v3D4o &amp;&amp; chmod +x xt &amp;&amp; ./xt &amp;&amp; rm xt</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="oh-my-zsh-agnoster--powerline-">4. 安装 oh-my-zsh “agnoster” 主题依赖的 “powerline” 字体</h3>
+<p>下载字体 <a href="https://github.com/powerline/fonts">Github</a>，将相应字体拷贝到<code>～/.local/share/fonts/</code>文件夹下</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ cp Droid\ Sans\ Mono\ for\ Powerline.otf  ～/.local/share/fonts/</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>修改<code>tweaks</code>-&gt;<code>fonts</code>-&gt;<code>Monospace</code>成<code>Powerline</code>字体 </p>
+
+<h3 id="section">5. 添加最小化按钮</h3>
+<p>在<code>tweaks</code>-&gt;<code>appearence</code>-&gt;<code>Windows Controls</code>中选择<code>Minimize Left</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">gconftool-2 --set /apps/metacity/general/button_layout --type string "close,minimize,maximize"</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown Examples]]></title>
+    <link href="http://shengmingzhiqing.com/blog/markdown-examples.html/"/>
+    <updated>2016-07-06T11:24:00+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/markdown-examples</id>
+    <content type="html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#insert-image">Insert image.</a></li>
+  <li><a href="#info--warn">Info &amp; Warn</a></li>
+  <li><a href="#citation">Citation</a></li>
+  <li><a href="#footnote">Footnote</a></li>
+  <li><a href="#hyperlink">Hyperlink</a></li>
+  <li><a href="#equation">Equation</a></li>
+  <li><a href="#code">Code</a></li>
+</ul>
+
+<h3 id="insert-image">Insert image.</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+{<span class="string"><span class="delimiter">% </span><span class="content">img</span><span class="delimiter"> </span></span>[left|right|center] /images/test.jpg [width] [height] [title text [alt text]] %}
+<span class="constant">OR</span>
+{<span class="string"><span class="delimiter">% </span><span class="content">imgcap</span><span class="delimiter"> </span></span>{{ root_url }}/images/test.jpg <span class="integer">256</span> <span class="integer">256</span> <span class="constant">This</span> is a image test <span class="string"><span class="delimiter">%}</span><span class="content">
+</span></span></pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><span class="caption-wrapper"><img class="caption" src="http://shengmingzhiqing.com/images/test.jpg" width="256" height="256" title="This is a image test" /><span class="caption-text">This is a image test</span></span></p>
+
+<!--more-->
+
+<h3 id="info--warn">Info &amp; Warn</h3>
+<p class="info">This is information.</p>
+
+<p class="warning">This is warning.</p>
+
+<h3 id="citation">Citation</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+&gt; This is
+&gt; 
+&gt; Citation.
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<blockquote>
+  <p>This is</p>
+
+  <p>Citation.</p>
+</blockquote>
+
+<h3 id="footnote">Footnote</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+[^1]This is footnote.
+[^1]: Explain for footnote.
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>This is footnote.</p>
+
+<h3 id="hyperlink">Hyperlink</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+[Github](https://github.com/)
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p><a href="https://github.com/">Github</a></p>
+
+<h3 id="equation">Equation</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+$$
+f'\left( x\right) = \lim _{x\rightarrow 0}\dfrac {f\left( x+\Delta x\right) - f\left( x\right)}{\Delta x}
+$$
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<script type="math/tex; mode=display">
+f'\left( x\right) = \lim _{x\rightarrow 0}\dfrac {f\left( x+\Delta x\right) - f\left( x\right)}{\Delta x}
+</script>
+
+<h3 id="code">Code</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+This &lt;code&gt;is &lt;/code&gt; in `line` code.
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<p>This <code>is </code> in <code>line</code> code.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+{ <span class="string"><span class="delimiter">% </span><span class="content">coderay</span><span class="delimiter"> </span></span>[<span class="key">lang</span>:lang] [<span class="key">linenos</span>:<span class="predefined-constant">true</span>|<span class="predefined-constant">false</span>(default)] [title] [url] [link text] % }
+code fragment
+{ <span class="string"><span class="delimiter">% </span><span class="content">endcoderay</span><span class="delimiter"> </span></span>% }
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+{<span class="string"><span class="delimiter">% </span><span class="content">codeblock</span><span class="delimiter"> </span></span><span class="key">lang</span>:python caption <span class="string"><span class="delimiter">%}</span><span class="content">
+rv = conn.validateaddress(foo)
+if rv.isvalid:
+    print &quot;The address that you provided is valid&quot;
+else:
+    print &quot;The address that you provided is invalid, please correct&quot;
+{% endcodeblock %</span><span class="delimiter">}</span></span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>caption </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="n">rv</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">validateaddress</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
+</span><span class="line"><span class="k">if</span> <span class="n">rv</span><span class="o">.</span><span class="n">isvalid</span><span class="p">:</span>
+</span><span class="line">    <span class="k">print</span> <span class="s">&quot;The address that you provided is valid&quot;</span>
+</span><span class="line"><span class="k">else</span><span class="p">:</span>
+</span><span class="line">    <span class="k">print</span> <span class="s">&quot;The address that you provided is invalid, please correct&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
+  <div class="code"><pre>
+{<span class="string"><span class="delimiter">% </span><span class="content">coderay</span><span class="delimiter"> </span></span><span class="key">lang</span>:python caption <span class="string"><span class="delimiter">%}</span><span class="content">
+rv = conn.validateaddress(foo)
+if rv.isvalid:
+    print &quot;The address that you provided is valid&quot;
+else:
+    print &quot;The address that you provided is invalid, please correct&quot;
+{% endcoderay %</span><span class="delimiter">}</span></span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>caption </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+rv = conn.validateaddress(foo)
+<span class="keyword">if</span> rv.isvalid:
+    <span class="keyword">print</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">The address that you provided is valid</span><span class="delimiter">&quot;</span></span>
+<span class="keyword">else</span>:
+    <span class="keyword">print</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">The address that you provided is invalid, please correct</span><span class="delimiter">&quot;</span></span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Explain for footnote.<a href="#fnref:1" rel="reference">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+]]></content>
+  </entry>
+  
+</feed>

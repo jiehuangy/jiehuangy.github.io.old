@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>算法复杂度分析 - Free Mind</title>
+  <meta name="author" content="Jie Huang">
+
+  
+  <meta name="description" content="算法分析指的是分析算法的代码，估计出操作的数目，或称算法的“步数”。
+之所以分析算法步数，是因为： 步数确实能反映执行时间——步数越多执行时间就越长； 算法的步数不依赖于平台，更 容易分析和比较。 算法分析不仅要考虑算法步数与 n 的关系，更重要的是还要考虑“当 n 逐渐增大时” &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://shengmingzhiqing.com/blog/algorithm-complexity.html/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Free Mind" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Special+Elite:regular" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Marko+One:regular" rel="stylesheet" type="text/css">
+
+<!-- adn app.net-->
+<script type="text/javascript" src="/javascripts/adn-timeline.min.js"></script>
+
+<!-- MathJax Configuration -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<!--新窗口中打开链接-->
+<script type="text/javascript">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+
+<!--bigfoot-->
+<style>@import url("/stylesheets/bigfoot-number.scss");</style>
+<script type="text/javascript" src="/javascripts/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/bigfoot.js"></script>
+<script type="text/javascript">
+    $.bigfoot();
+</script>
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Free Mind</a></h1>
+  
+  <h2>Learn more. Do more. Be more.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<!--  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:shengmingzhiqing.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="搜索 = 输入 + 回车"/>
+  </fieldset>
+</form>
+   -->
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i> Blog</a></li>
+  <li><a href="/blog/archives/"><i class="fa fa-list-ul"></i> Archives</a></li>
+  <li><a href="/article-series/"><i class="fa fa-compass"></i> Series</a></li>
+  <!-- <li><a href="/adn-timeline/"><i class="fa fa-flask"></i> 断章</a></li>
+  <li><a href="/ebauche/"><i class="fa fa-gavel"></i> Ébauche</a></li>
+  <li><a href="http://haohailong.net"><i class="fa fa-leaf"></i> 另一面</a></li> -->
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">算法复杂度分析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T19:22:33+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>算法分析指的是分析算法的代码，估计出操作的数目，或称算法的“步数”。</strong>
+之所以分析算法步数，是因为：</p>
+
+<blockquote>
+  <ol>
+    <li>步数确实能反映执行时间——步数越多执行时间就越长；</li>
+    <li>算法的步数不依赖于平台，更 容易分析和比较。</li>
+  </ol>
+</blockquote>
+
+<!--more-->
+
+<p>算法分析不仅要考虑算法步数与 n 的关系，更重要的是还要考虑“当 n 逐渐增大时” 算法复杂度会如何变化。因此说 A 算法比 B 算法好，并不是指对于特定的 n，A 比 B 节省 50%的时间，而是指随着 n 的不断增大，A 对 B 的优势会越来越大。</p>
+
+<h3 id="o-">大 O 表示法</h3>
+<p>“大 O 表示法”根据“步数” $f(n)$ 函数的增长率特性来刻画函数，可以用来描述算法的复杂度。</p>
+
+<p>如果存在正常数 c，使得只要 n 足够大（例如超过某个 n0）， 函数 $f(n)$ 的值都不会超过 $c×g(n)$，即当 n &gt; n0 时，</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+ f(n) <= c \times g(n)  %]]></script>
+
+<p>则可记为</p>
+
+<script type="math/tex; mode=display"> f(n) = O(g(n)) </script>
+
+<p>其中，n 对应于问题规模，$f(n)$ 是算法需执行的步数，$g(n)$ 是表示增长数 量级的某个函数。</p>
+
+<p class="info">说算法的复杂度为 $O(g(n))$，意思就是当 n 足够大时，该算法的执行步数（时间）永远不会超过  $c×g(n)$。</p>
+
+<p>实际分析算法时，为了使 $O(g(n))$ 中的 $g(n)$ 函数尽量简单，在得到算法的步数表达式 $f(n)$ 之后，可以利用两条规则来简化推导，直接得出 $f(n)$ 的大 O 表示。规则如下：</p>
+
+<p class="info">（1）如果 $f(n)$ 是若干项之和，则只需保留最高次项，省略所有低次项；
+（2）如果 $f(n)$ 是若干项之积，则可省略任何常数因子。</p>
+
+<p>以上两条规则告诉我们，在分析算法代码时可以忽略许多代码，而只关注那些嵌套层数最多、并且每一层循环的循环次数都与问题规模 n 有关的循环。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard"><span class="fn">Jie Huang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T19:22:33+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>Algorithm</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/elementary-os-mei-hua.html/" title="Previous Post: elementary os 美化">&laquo; elementary os 美化</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/c-plus-plus-sort-cmp.html/" title="Next Post: C++ sort 的比较函数写法">C++ sort 的比较函数写法 &raquo;</a>
+      
+    </p>
+      <section class="postrevision">
+	<ul><li><strong>add some articals</strong>&nbsp; 2016-07-06 </li></ul>
+</section>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/python-numpy.html/">Numpy Tutorial</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/tmux-cheatsheet.html/">Tmux Cheatsheet</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-latex.html/">Ubuntu Install Latex</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-stip.html/">Install STIP Under Ubuntu 14.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-ffmpeg.html/">Ubuntu 14.10 安装 Ffmpeg</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-dense-trajectory.html/">Install Dense Trajectory Under MacOS 10.10</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-opencv.html/">在 Ubuntu 上用 Apt-get 安装 Opencv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-python-opencv.html/">Mac 下安装 Python-OpenCV</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-os-caffe.html/">Mac OS X 10.10 安装 Caffe 教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/greedy-algorithm.html/">Greedy Algorithm</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+  <li class='category'><a href='/blog/categories/algorithm/'>Algorithm (6)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (5)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/c-plus-plus/'>c++ (2)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Jie Huang - <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">署名 -  非商业 - 非衍生</a> - <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, Customized by <a href="http://haohailong.net/" target="_blank">Haohailong.net</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sorting - Free Mind</title>
+  <meta name="author" content="Jie Huang">
+
+  
+  <meta name="description" content="排序的稳定性 冒泡排序 (Bubble Sort) 选择排序 (Selection Sort) 插入排序 (Insertion Sort) 希尔排序 (Shell Sort) 堆排序 (Heap Sort) 归并排序 (Merge Sort) 快速排序 (Quick Sort) 桶排序 ( &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://shengmingzhiqing.com/blog/sorting.html/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Free Mind" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Special+Elite:regular" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Marko+One:regular" rel="stylesheet" type="text/css">
+
+<!-- adn app.net-->
+<script type="text/javascript" src="/javascripts/adn-timeline.min.js"></script>
+
+<!-- MathJax Configuration -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<!--新窗口中打开链接-->
+<script type="text/javascript">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+
+<!--bigfoot-->
+<style>@import url("/stylesheets/bigfoot-number.scss");</style>
+<script type="text/javascript" src="/javascripts/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/bigfoot.js"></script>
+<script type="text/javascript">
+    $.bigfoot();
+</script>
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Free Mind</a></h1>
+  
+  <h2>Learn more. Do more. Be more.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<!--  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:shengmingzhiqing.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="搜索 = 输入 + 回车"/>
+  </fieldset>
+</form>
+   -->
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i> Blog</a></li>
+  <li><a href="/blog/archives/"><i class="fa fa-list-ul"></i> Archives</a></li>
+  <li><a href="/article-series/"><i class="fa fa-compass"></i> Series</a></li>
+  <!-- <li><a href="/adn-timeline/"><i class="fa fa-flask"></i> 断章</a></li>
+  <li><a href="/ebauche/"><i class="fa fa-gavel"></i> Ébauche</a></li>
+  <li><a href="http://haohailong.net"><i class="fa fa-leaf"></i> 另一面</a></li> -->
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Sorting</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T20:38:32+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ul id="markdown-toc">
+  <li><a href="#section">排序的稳定性</a></li>
+  <li><a href="#bubble-sort">冒泡排序 (Bubble Sort)</a></li>
+  <li><a href="#selection-sort">选择排序 (Selection Sort)</a></li>
+  <li><a href="#insertion-sort">插入排序 (Insertion Sort)</a></li>
+  <li><a href="#shell-sort">希尔排序 (Shell Sort)</a></li>
+  <li><a href="#heap-sort">堆排序 (Heap Sort)</a></li>
+  <li><a href="#merge-sort">归并排序 (Merge Sort)</a></li>
+  <li><a href="#quick-sort">快速排序 (Quick Sort)</a></li>
+  <li><a href="#bucket-sort">桶排序 (Bucket Sort)</a></li>
+  <li><a href="#counting-sort">计数排序 (Counting Sort)</a></li>
+</ul>
+
+<p>希尔排序相当于插入排序，同属于插入排序类；堆排序相当于选择排序的升级，同属于选择类排序；而快速排序是冒泡排序的升级，同属于交换排序类。</p>
+
+<!--more-->
+
+<h3 id="section">排序的稳定性</h3>
+<p>假设 $k_i = k_j$，且在排序前 $i&lt;j$。如果排序后仍然  $i&lt;j$，则称所用排序算法是稳定的。否则排序算法不稳定。</p>
+
+<hr />
+
+<h3 id="bubble-sort">冒泡排序 (Bubble Sort)</h3>
+<p>思想：两两比较相邻记录的数值，如果反序则交换，直到没有反序的记录为止。</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="/images/2016-07-06-sorting-bubble-sort.png" width="512" height="512" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：时间复杂度为 $O(n^2)$</p>
+
+<hr />
+
+<h3 id="selection-sort">选择排序 (Selection Sort)</h3>
+<p>思想：在确定第 $i$ 个位置的数值时，从 $[i+1, n)$中选出数值最小的记录，并和第 $i$ 个记录交换。</p>
+
+<p>复杂度：时间复杂度为 $O(n^2)$，尽管与冒泡排序相同，但是性能上优于冒泡排序。</p>
+
+<hr />
+
+<h3 id="insertion-sort">插入排序 (Insertion Sort)</h3>
+<p>思想：将一个记录插入到已经排好序的有序表中，从而得到新的、录数增加 1 的有序表。</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="/images/2016-07-06-sorting-insertion-sort.png" width="512" height="256" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：时间复杂度为 $O(n^2)$，但是性能上优于冒泡排序和选择排序。</p>
+
+<hr />
+
+<h3 id="shell-sort">希尔排序 (Shell Sort)</h3>
+<p>插入排序的效率在某些时候很高，比如，记录本身就是基本有序的。还有就是记录数比较少时，直接插入的优势比较明显。希尔排序是插入排序的改进。</p>
+
+<p>思想：分割待排序的记录，减少待排序记录的个数。将相距某个“增量”的记录组成一个子序列（实现跳跃式移动），在子序列内分别进行插入排序，使得结果基本有序。最后对整个序列插入排序。</p>
+
+<p>复杂度：时间复杂度为 $O(n^{3/2})$。</p>
+
+<p>注：由于记录是跳跃式的移动，希尔排序不是稳定的排序算法。</p>
+
+<hr />
+
+<h3 id="heap-sort">堆排序 (Heap Sort)</h3>
+<p>如果可以做到在每次选择到最小记录的同时，并根据比较结果对其记录做出相应的调整，那样排序的总体效率会很高。堆排序就是对选择排序的改进。</p>
+
+<p>思想：将待排序序列构造成一个大顶堆，此时，整个序列的最大值就是堆顶的根结点。将它移走，然后将剩余 n-1 个记录重新构造成一个大顶堆，这样就能得到 n 个元素中次大的值。如此反复得到一个有序序列。</p>
+
+<p>复杂度：堆初始化的时间复杂度是 $O(n)$，重建堆的时间复杂度为 $O(nlogn)$。堆排序堆原始序列的状态不敏感，所以它的最好，平均，最坏时间复杂度是 $O(nlogn)$。</p>
+
+<p>注：由于记录的比较和交换是跳跃式进行的，堆排序不是稳定的排序算法。</p>
+
+<hr />
+
+<h3 id="merge-sort">归并排序 (Merge Sort)</h3>
+<p>思想：将待排序序列看做是 n 个有序的子序列，每个子序列的长度为 1，然互两两归并得到 [n/2] 个长度为 2 或 1 的有序子序列，再两两归并。如此重复直到长度为 n 的有序序列为止。</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="/images/2016-07-06-sorting-merge-sort.png" width="512" height="256" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：最好，平均，最坏时间复杂度都是 $O(nlogn)$。由于在 Merge 的过程中需要与记录序列同样数量的存储空间存放结果，所以空间复杂度是 $O(n)$。</p>
+
+<p>注：归并排序需要两两比较，不存在跳跃，因此归并排序是一种稳定的排序算法。</p>
+
+<hr />
+
+<h3 id="quick-sort">快速排序 (Quick Sort)</h3>
+<p>思想：通过一趟排序将记录分割成独立的两部分，其中一部分记录的数值比另一部分记录的数值小。然后分别对这两部分继续排序，以达到整个序列有序的目的。</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="/images/2016-07-06-sorting-quick-sort.png" width="512" height="256" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：最有情况下，Partition 每次划分的很均匀，时间复杂度为 $O(nlogn)$。最坏情况下，待排序列为正序或者反序，时间复杂度为 $O(n^2)$。平均情况下，时间复杂度可证明为 $O(nlogn)$。</p>
+
+<p>注：由于记录的比较和交换是跳跃式进行的，快速排序不是稳定的排序算法。</p>
+
+<hr />
+
+<h3 id="bucket-sort">桶排序 (Bucket Sort)</h3>
+<p>之前介绍的排序算法都是基于两个数值之间的比较来确定位置的先后关系。桶排序则不是，所以它比快排还快，能够在  $O(n)$ 的时间内完成。但是缺点是非常耗费空间，如果序列中最大数为 m，那么需要 m 个桶。</p>
+
+<p>思想：把记录 a[i] 放入第 a[i] 个桶中。</p>
+
+<p>[6 2 4 1 5 9]           待排数组</p>
+
+<p>[0 1 2 0 4 5 6 0 0 9]   空桶</p>
+
+<p>[0 1 2 3 4 5 6 7 8 9]   桶编号(实际不存在)</p>
+
+<p><span class="caption-wrapper"><img class="caption" src="/images/2016-07-06-sorting-bucket-sort.png" width="512" height="256" title="" /><span class="caption-text"></span></span></p>
+
+<p>复杂度：时间复杂度$O(n)$</p>
+
+<p>注：桶排序是稳定的</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span><span class="p">[]</span> <span class="n">bucket_sort</span><span class="p">(</span><span class="kt">int</span><span class="p">[]</span> <span class="n">unsorted</span><span class="p">,</span> <span class="kt">int</span> <span class="n">maxNumber</span> <span class="o">=</span> <span class="mi">99</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">   <span class="kt">int</span><span class="p">[]</span> <span class="n">sorted</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[</span><span class="n">maxNumber</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+</span><span class="line">   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">unsorted</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span><span class="line">	   <span class="n">sorted</span><span class="p">[</span><span class="n">unsorted</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">unsorted</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span><span class="line">   <span class="k">return</span> <span class="n">sorted</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<hr />
+
+<h3 id="counting-sort">计数排序 (Counting Sort)</h3>
+<p>思想：计数排序假设 n 个输入元素中的每一个都是介于 [0, k] 的整数，此处 k 为某个整数。计数排序顾名思义离不开计数，我们要计的是输入元素中相同元素出现的次数。对每一个输入元素 x，确定小于 x 的元素的个数，那样排序之后，x 在最终输出数组中的位置就可以确定了。</p>
+
+<p>假定输入数组为 A[1..n]，他们的值均位于 0~k 之间，输出排序之后的数组为 B[1..n]，以及临时存储数组 C[0..k]。计数排序的伪代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="n">memset</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">C</span><span class="p">),</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">//C 数组置零  </span>
+</span><span class="line"><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span> <span class="n">to</span> <span class="n">n</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">++</span><span class="p">;</span>          <span class="c1">//统计输入数组中相同元素的个数  </span>
+</span><span class="line"><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span> <span class="n">to</span> <span class="n">k</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span> <span class="c1">//C[i]表示输入数组中小于或者等于 i 的元素个数  </span>
+</span><span class="line"><span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="n">n</span> <span class="n">downto</span> <span class="mi">1</span> <span class="k">do</span>
+</span><span class="line">    <span class="n">B</span><span class="p">[</span><span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>  <span class="c1">//把每一个 A[i]放到输出数组中相应位置上  </span>
+</span><span class="line">    <span class="n">C</span><span class="p">[</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">--</span><span class="p">;</span>          <span class="c1">//如果有几个相同元素时,当然不能放在同一个位置了。</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>计数排序特点：
+1.  提前必须是已知待排序的关键字为整型且范围已知。
+2.  时间复杂度为 O(n+k)，不是基于比较的排序算法，因此效率非常之高。
+3.  稳定性好，这个是计数排序非常重要的特性，可以用在后面介绍的基数排序中。
+4.  但需要一些辅助数组，如 C[0..k]，因此待排序的关键字范围 0~k 不宜过大。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard"><span class="fn">Jie Huang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T20:38:32+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>Algorithm</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/topological-sorting.html/" title="Previous Post: Topological Sorting">&laquo; Topological Sorting</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/dynamic-programming.html/" title="Next Post: Dynamic Programming">Dynamic Programming &raquo;</a>
+      
+    </p>
+      <section class="postrevision">
+	<ul><li><strong>write articals</strong>&nbsp; 2016-07-07 </li></ul>
+</section>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/python-numpy.html/">Numpy Tutorial</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/tmux-cheatsheet.html/">Tmux Cheatsheet</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-latex.html/">Ubuntu Install Latex</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-stip.html/">Install STIP Under Ubuntu 14.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-ffmpeg.html/">Ubuntu 14.10 安装 Ffmpeg</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-dense-trajectory.html/">Install Dense Trajectory Under MacOS 10.10</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-opencv.html/">在 Ubuntu 上用 Apt-get 安装 Opencv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-python-opencv.html/">Mac 下安装 Python-OpenCV</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-os-caffe.html/">Mac OS X 10.10 安装 Caffe 教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/greedy-algorithm.html/">Greedy Algorithm</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+  <li class='category'><a href='/blog/categories/algorithm/'>Algorithm (6)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (5)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/c-plus-plus/'>c++ (2)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Jie Huang - <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">署名 -  非商业 - 非衍生</a> - <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, Customized by <a href="http://haohailong.net/" target="_blank">Haohailong.net</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

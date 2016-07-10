@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>C++ Sort 的比较函数写法 - Free Mind</title>
+  <meta name="author" content="Jie Huang">
+
+  
+  <meta name="description" content="定义排序函数： 方法 1：声明外部比较函数 1
+2
+3
+4
+5
+bool Less(const Student&amp; s1, const Student&amp; s2)
+{ return s1.name &lt; s2.name; //从小到大排序
+}
+std::sort(sutVector &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://shengmingzhiqing.com/blog/c-plus-plus-sort-cmp.html/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Free Mind" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Special+Elite:regular" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Marko+One:regular" rel="stylesheet" type="text/css">
+
+<!-- adn app.net-->
+<script type="text/javascript" src="/javascripts/adn-timeline.min.js"></script>
+
+<!-- MathJax Configuration -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<!--新窗口中打开链接-->
+<script type="text/javascript">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+
+<!--bigfoot-->
+<style>@import url("/stylesheets/bigfoot-number.scss");</style>
+<script type="text/javascript" src="/javascripts/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/bigfoot.js"></script>
+<script type="text/javascript">
+    $.bigfoot();
+</script>
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Free Mind</a></h1>
+  
+  <h2>Learn more. Do more. Be more.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<!--  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:shengmingzhiqing.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="搜索 = 输入 + 回车"/>
+  </fieldset>
+</form>
+   -->
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i> Blog</a></li>
+  <li><a href="/blog/archives/"><i class="fa fa-list-ul"></i> Archives</a></li>
+  <li><a href="/article-series/"><i class="fa fa-compass"></i> Series</a></li>
+  <!-- <li><a href="/adn-timeline/"><i class="fa fa-flask"></i> 断章</a></li>
+  <li><a href="/ebauche/"><i class="fa fa-gavel"></i> Ébauche</a></li>
+  <li><a href="http://haohailong.net"><i class="fa fa-leaf"></i> 另一面</a></li> -->
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">C++ Sort 的比较函数写法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T19:33:30+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>定义排序函数：</p>
+
+<h3 id="section">方法 1：声明外部比较函数</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="kt">bool</span> <span class="n">Less</span><span class="p">(</span><span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s2</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">s1</span><span class="p">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">s2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span> <span class="c1">//从小到大排序</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">sutVector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">stuVector</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">Less</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<!--more-->
+
+<p>注意：比较函数必须写在类外部（全局区域）或声明为静态函数</p>
+
+<p>当 comp 作为类的成员函数时，默认拥有一个 this 指针，这样和 sort 函数所需要使用的排序函数类型不一样。</p>
+
+<p>否则，会出现错误</p>
+
+<h3 id="section-1">方法 2：重载类的比较运算符</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s2</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">s1</span><span class="p">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">s2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span> <span class="c1">//从小到大排序</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">sutVector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">stuVector</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="section-2">方法 3：声明比较类</h3>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">struct</span> <span class="n">Less</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">    <span class="kt">bool</span> <span class="k">operator</span><span class="p">()(</span><span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s1</span><span class="p">,</span> <span class="k">const</span> <span class="n">Student</span><span class="o">&amp;</span> <span class="n">s2</span><span class="p">)</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">        <span class="k">return</span> <span class="n">s1</span><span class="p">.</span><span class="n">name</span> <span class="o">&lt;</span> <span class="n">s2</span><span class="p">.</span><span class="n">name</span><span class="p">;</span> <span class="c1">//从小到大排序</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line"><span class="p">};</span>
+</span><span class="line">
+</span><span class="line"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">sutVector</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">stuVector</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">Less</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard"><span class="fn">Jie Huang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T19:33:30+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c-plus-plus/'>c++</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/algorithm-complexity.html/" title="Previous Post: 算法复杂度分析">&laquo; 算法复杂度分析</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/c-declaration-gloden-rule.html/" title="Next Post: 读懂复杂 C 声明的黄金法则">读懂复杂 C 声明的黄金法则 &raquo;</a>
+      
+    </p>
+      <section class="postrevision">
+	<ul><li><strong>add some articals</strong>&nbsp; 2016-07-06 </li></ul>
+</section>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/python-numpy.html/">Numpy Tutorial</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/tmux-cheatsheet.html/">Tmux Cheatsheet</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-latex.html/">Ubuntu Install Latex</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-stip.html/">Install STIP Under Ubuntu 14.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-ffmpeg.html/">Ubuntu 14.10 安装 Ffmpeg</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-dense-trajectory.html/">Install Dense Trajectory Under MacOS 10.10</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-opencv.html/">在 Ubuntu 上用 Apt-get 安装 Opencv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-python-opencv.html/">Mac 下安装 Python-OpenCV</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-os-caffe.html/">Mac OS X 10.10 安装 Caffe 教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/greedy-algorithm.html/">Greedy Algorithm</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+  <li class='category'><a href='/blog/categories/algorithm/'>Algorithm (6)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (5)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/c-plus-plus/'>c++ (2)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Jie Huang - <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">署名 -  非商业 - 非衍生</a> - <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, Customized by <a href="http://haohailong.net/" target="_blank">Haohailong.net</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

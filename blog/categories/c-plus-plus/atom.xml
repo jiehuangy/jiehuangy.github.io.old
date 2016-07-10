@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Categories:c++ | Free Mind]]></title>
+  <link href="http://shengmingzhiqing.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
+  <link href="http://shengmingzhiqing.com/"/>
+  <updated>2016-07-10T16:34:48+08:00</updated>
+  <id>http://shengmingzhiqing.com/</id>
+  <author>
+    <name><![CDATA[Jie Huang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[读懂复杂 C 声明的黄金法则]]></title>
+    <link href="http://shengmingzhiqing.com/blog/c-declaration-gloden-rule.html/"/>
+    <updated>2016-07-06T19:37:28+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/c-declaration-gloden-rule</id>
+    <content type="html"><![CDATA[<h3 id="section">黄金法则：</h3>
+<p>从声明的变量名开始，先向右看，再向左看，再向右看，再向左看 。</p>
+
+<h3 id="section-1">举例说明：</h3>
+
+<h4 id="section-2">例子 1</h4>
+
+<p><code>cpp
+int a;
+</code>
+a 的右边什么都没有，向左看 int，说明 a 是一个 int 型变量。
+<!--more-->
+#### 例子 2</p>
+
+<p><code>
+char *a;
+</code></p>
+
+<p>向右看，什么都没有; 向左看是*, 说明 a 是一个指针; 再向右看，什么都没有; 再向左看是 char，说明 a 是一个指向 char 的指针。</p>
+
+<h4 id="section-3">例子 3</h4>
+
+<p><code>
+int *a[];
+</code></p>
+
+<p>向右看，[]说明 a 是一个数组；向左看，*说明数组的每个元素是个指针；再向右看，什么都没有; 再向左看，int，每个指针指向一个整数。综合来看，a 是一个数组，数组每个元素是指向整数的指针。</p>
+
+<h4 id="section-4">例子 4</h4>
+
+<p><code>
+int * const a;
+</code></p>
+
+<p>向 a 右边看，什么都没有。一直向左看，先是 const，说明 a 是不可修改的，然后是*，说明 a 是一个指针；然后是 int，说明指针指向整数。综合来看，a 是一个不可修改的指针，它指向整数。</p>
+
+<h4 id="section-5">例子 5</h4>
+
+<p><code>
+void (*checkout)();
+</code></p>
+
+<p>向右看，遇见 ) 返回，再向左看是*，说明 checkout 是个指针。再向右看，是()，说明这个指针指向函数; 向左看是 void，说明函数返回 void。总的来看， checkout 是一个指向返回 void 的函数的指针。</p>
+
+<h4 id="section-6">例子 6</h4>
+
+<p><code>
+void (*checkout[])();
+</code></p>
+
+<p>向右看，[]说明 checkout 是一个数组；向左看， * 说明数组每个元素是个指针。向右看，遇见)返回；再向左看，遇见(返回。再向右看，是()，说明数组内每个指针指向函数; 向左看是 void，说明每个函数返回 void。
+总的来看， checkout 是一个数组，数组内都是指向返回 void 的函数的指针。</p>
+
+<h4 id="section-7">例子 7</h4>
+
+<p><code>
+void (*(*checkout)[])();
+</code></p>
+
+<p>向右看，遇见)返回; 向左看，*说明 checkout 是个指针，遇到(跳出一层()。向右看，[]说明 checkout 指向的是一个数组；向左看， *说明数组每个元素是个指针。向右看遇见)，向左看遇见(，跳出一层()。向右看，()说明数组每个元素指向一个函数；再向左看，void 说明每个数组元素指向的函数返回 void。
+总结：checkout 是一个指针，指向一个数组，每个数组元素都是一个指向返回 void 函数的指针。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[C++ Sort 的比较函数写法]]></title>
+    <link href="http://shengmingzhiqing.com/blog/c-plus-plus-sort-cmp.html/"/>
+    <updated>2016-07-06T19:33:30+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/c-plus-plus-sort-cmp</id>
+    <content type="html"><![CDATA[<p>定义排序函数：</p>
+
+<h3 id="section">方法 1：声明外部比较函数</h3>
+
+<p><code>c++
+bool Less(const Student&amp; s1, const Student&amp; s2)
+{
+    return s1.name &lt; s2.name; //从小到大排序
+}
+std::sort(sutVector.begin(), stuVector.end(), Less);
+</code>
+<!--more--></p>
+
+<p>注意：比较函数必须写在类外部（全局区域）或声明为静态函数</p>
+
+<p>当 comp 作为类的成员函数时，默认拥有一个 this 指针，这样和 sort 函数所需要使用的排序函数类型不一样。</p>
+
+<p>否则，会出现错误</p>
+
+<h3 id="section-1">方法 2：重载类的比较运算符</h3>
+
+<p><code>c++
+bool operator&lt;(const Student&amp; s1, const Student&amp; s2)
+{
+    return s1.name &lt; s2.name; //从小到大排序
+}
+std::sort(sutVector.begin(), stuVector.end());
+</code></p>
+
+<h3 id="section-2">方法 3：声明比较类</h3>
+
+<p>```c++
+struct Less
+{
+    bool operator()(const Student&amp; s1, const Student&amp; s2)
+    {
+        return s1.name &lt; s2.name; //从小到大排序
+    }
+};</p>
+
+<p>std::sort(sutVector.begin(), stuVector.end(), Less());
+```</p>
+
+]]></content>
+  </entry>
+  
+</feed>

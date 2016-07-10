@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Categories:Mac | Free Mind]]></title>
+  <link href="http://shengmingzhiqing.com/blog/categories/mac/atom.xml" rel="self"/>
+  <link href="http://shengmingzhiqing.com/"/>
+  <updated>2016-07-10T16:34:48+08:00</updated>
+  <id>http://shengmingzhiqing.com/</id>
+  <author>
+    <name><![CDATA[Jie Huang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Install Dense Trajectory Under MacOS 10.10]]></title>
+    <link href="http://shengmingzhiqing.com/blog/mac-dense-trajectory.html/"/>
+    <updated>2016-07-06T23:43:20+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/mac-dense-trajectory</id>
+    <content type="html"><![CDATA[<h4 id="software">1. software:</h4>
+
+<p><code>sh
+download ffmpeg-0.11.1, OpenCV-2.4.2 and dense_trajectory_release_v1.2
+</code>
+<!--more--></p>
+
+<h4 id="install-ffmpeg">2. Install ffmpeg:</h4>
+<p><code>sh
+cd ffmpeg-0.11.1
+./configure
+make install
+</code></p>
+
+<h4 id="install-opencv-242">3. Install OpenCV-2.4.2:</h4>
+<p><code>sh
+cd OpenCV-2.4.2
+cmake
+make install
+</code></p>
+
+<h4 id="install-dense-trajectory">4. Install Dense Trajectory:</h4>
+<p><code>sh
+change the source code by adding a line code
+make
+</code></p>
+
+<p>Done</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac 下安装 Python-OpenCV]]></title>
+    <link href="http://shengmingzhiqing.com/blog/mac-python-opencv.html/"/>
+    <updated>2016-07-06T23:33:13+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/mac-python-opencv</id>
+    <content type="html"><![CDATA[<p>首先确保已经安装了 Python</p>
+
+<!--more-->
+
+<ul>
+  <li>Mac 下可以直接使用 brew 来安装 OpenCV，具体步骤如下：</li>
+</ul>
+
+<p>``` sh
+# add opencv
+brew tap homebrew/science</p>
+
+<h1 id="install-opencv">install opencv</h1>
+<p>brew install opencv
+```</p>
+
+<ul>
+  <li>安装必要的 python 库</li>
+</ul>
+
+<p><code>sh
+pip install numpy
+pip install matplotlib
+</code></p>
+
+<ul>
+  <li>测试是否安装成功</li>
+</ul>
+
+<p>``` sh
+import cv2
+import numpy  np
+matplotlib import pyplot  plt</p>
+
+<p>img = cv2.imread(‘road.png’, )
+plt.imshow(img, cmap=’gray’, interpolation=’bicubic’)
+plt.xticks([]), plt.yticks([]) # to hide tick values on X and Y axis
+plt.show()
+```</p>
+
+<p>可参考这篇文章中的方法安装：<a href="http://www.pyimagesearch.com/2015/06/15/install-opencv-3-0-and-python-2-7-on-osx/">Install OpenCV On Mac</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS X 10.10 安装 Caffe 教程]]></title>
+    <link href="http://shengmingzhiqing.com/blog/mac-os-caffe.html/"/>
+    <updated>2016-07-06T23:29:02+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/mac-os-caffe</id>
+    <content type="html"><![CDATA[<p>详细安装步骤:</p>
+
+<ul>
+  <li>Homebrew
+    <ol>
+      <li>根据 http://brew.sh/上面的说明安装 Homebrew 包管理器</li>
+    </ol>
+  </li>
+</ul>
+
+<!--more-->
+
+<ul>
+  <li>Anaconda Python
+    <ol>
+      <li>从 https://store.continuum.io/cshop/anaconda/下载和安装 Anaconda Python 包（其中包括 Caffe 框架用到的 hdf5）</li>
+      <li>export PATH=~/anaconda/bin:$PATH（将 Anaconda 的 bin 路径添加到 PATH 环境变量中）</li>
+    </ol>
+  </li>
+  <li>CUDA
+    <ol>
+      <li>从 https://developer.nvidia.com/cuda-downloads 下载并安装 CUDA 7.0（Caffe 使用 CUDA 进行 GPU 加速计算）</li>
+      <li>从 http://www.nvidia.com/object/mac-driver-archive.html 下载并安装最新的 CUDA 独立驱动（CUDA 安装包自带的驱动版本低）</li>
+      <li>export PATH=/Developer/NVIDIA/CUDA-7.0/bin:$PATH（将 CUDA 的 bin 路径添加到 PATH 环境变量中）</li>
+      <li>export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH（将 CUDA 库的路径添加到系统动态链接库搜索路径中）</li>
+    </ol>
+  </li>
+  <li>BLAS – Intel MKL
+    <ol>
+      <li>由于 Mac OS X 操作系统自带的线性代数 BLAS 库存在一些不稳定的问题，因此我选择安装 Intel MKL 库。如果你是在校大学生，可以使用学校邮箱从 https://software.intel.com/en-us/qualify-for-free-software/student 页面申请 Intel Parallel XE 2015 安装包（后面不要忘记在 Makefile.config 中设置 BLAS:=MKL）</li>
+      <li>确保在安装 Intel Parallel XE 时选择每一个组件（因为缺省情况下不会安装 MKL 组件）</li>
+      <li>cd /opt/intel/mkl/lib/</li>
+      <li>sudo ln -s . /opt/intel/mkl/lib/intel64（因为在编译 Caffe 时 Caffe 会从 MKL 的 intel64 目录中去搜索 MKL 的库，但是在安装 MKL 后，MKL 的 lib 目录下并没有 intel64 这个目录，所以需要建立一个 intel64 目录到 lib 目录的软链接）</li>
+    </ol>
+  </li>
+  <li>cuDNN
+    <ol>
+      <li>从 https://developer.nvidia.com/cudnn 页面下载并安装 cuDNN 库（别忘了在 Makefile.config 中取消 USE_CUDNN := 1 的注释）</li>
+      <li>tar -xzvf cudnn-6.5-osx-v2.tgz</li>
+      <li>cd cudnn-6.5-osx-v2</li>
+      <li>sudo cp lib* /usr/local/cuda/lib（拷贝 cuDNN 的链接库文件）</li>
+      <li>sudo cp cudnn.h /usr/local/cuda/include/（拷贝 cuDNN 的头文件）</li>
+    </ol>
+  </li>
+  <li>通过 Homebrew 安装依赖项
+    <ol>
+      <li>brew edit opencv
+2.将下面两行（替换的原因是在编译 Caffe 的 Python 接口时让 Caffe 链接到 Anaconda 的 Python 库，而不是链接到系统的 Python 库）
+args « “-DPYTHON#{py_ver}_LIBRARY=#{py_lib}/libpython2.7.#{dylib}”
+args « “-DPYTHON#{py_ver}_INCLUDE_DIR=#{py_prefix}/include/python2.7”
+替换为
+args « “-DPYTHON_LIBRARY=#{py_prefix}/lib/libpython2.7.dylib”
+args « “-DPYTHON_INCLUDE_DIR=#{py_prefix}/include/python2.7”</li>
+      <li>brew install –fresh -vd snappy leveldb gflags glog szip lmdb homebrew/science/opencv</li>
+      <li>brew install –build-from-source –with-python –fresh -vd protobuf（protobuf 需要从源代码进行编译）</li>
+      <li>brew install –build-from-source –fresh -vd boost boost-python（boost 需要从源代码进行编译）</li>
+    </ol>
+  </li>
+  <li>从 Github 上面克隆 Caffe 的代码
+    <ol>
+      <li>git clone https://github.com/BVLC/caffe.git</li>
+      <li>cd caffe</li>
+      <li>cp Makefile.config.example Makefile.config</li>
+    </ol>
+  </li>
+  <li>配置 Makefile.config
+    <ol>
+      <li>设置 BLAS := mkl</li>
+      <li>取消 USE_CUDNN := 1 注释</li>
+      <li>检查并设置 Python 路径</li>
+    </ol>
+  </li>
+  <li>设置环境变量
+    <ol>
+      <li>export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/cuda/lib:$HOME/anaconda/lib:/usr/local/lib:/usr/lib:/opt/intel/composer_xe<em>2015.2.132/compiler/lib:/opt/intel/composer_xe</em>2015.2.132/mkl/lib</li>
+    </ol>
+  </li>
+  <li>编译 Caffe
+    <ol>
+      <li>make clean</li>
+      <li>make all</li>
+      <li>make test</li>
+      <li>make runtest</li>
+      <li>make pycaffe</li>
+      <li>make distribute</li>
+    </ol>
+  </li>
+</ul>
+
+<p>英文原文地址：<a href="http://hoondy.com/2015/04/03/how-to-install-caffe-on-mac-os-x-10-10-for-dummies-like-me/">How to install Caffe on Mac OS X 10.10 for dummies</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac 下制作 Ubuntu 安装 U 盘]]></title>
+    <link href="http://shengmingzhiqing.com/blog/mac-make-ubuntu-installation-u.html/"/>
+    <updated>2016-07-06T19:41:48+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/mac-make-ubuntu-installation-u</id>
+    <content type="html"><![CDATA[<p>测试环境版本：Mac 10.8.4 ubuntu 13.04</p>
+
+<p>1.将 ISO 转换成 IMG:</p>
+
+<p><code>bash
+hdiutil convert -format UDRW -o ubuntu-13.04-desktop-i386.img ubuntu-13.04-desktop-i386.iso
+</code>
+<!--more--></p>
+
+<p>2.查看磁盘设备名，找到 U 盘的设备名</p>
+
+<p><code>bash
+diskutil list
+</code></p>
+
+<p>3.卸载 U 盘</p>
+
+<p><code>bash
+diskutil umountDisk /dev/disk1
+</code></p>
+
+<p>4.使用 dd 将 ubuntu 的 img 写入 U 盘</p>
+
+<p><code>bash
+sudo dd if=ubuntu-13.04-desktop-i386.img.dmg of=/dev/disk1 bs=1m
+</code></p>
+
+<p>5.完成！</p>
+]]></content>
+  </entry>
+  
+</feed>

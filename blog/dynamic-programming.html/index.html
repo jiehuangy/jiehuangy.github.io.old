@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Dynamic Programming - Free Mind</title>
+  <meta name="author" content="Jie Huang">
+
+  
+  <meta name="description" content="动态规划算法四步骤： 动态规划原理 最优子结构 重叠子问题 动态规划两种等价的实现方法 带备忘的自顶向下 (top-down with memoization) 自底向上 (bottom-up method) 应用 1. 石子合并问题 动态规划应用于子问题重叠问题， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://shengmingzhiqing.com/blog/dynamic-programming.html/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Free Mind" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Special+Elite:regular" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Marko+One:regular" rel="stylesheet" type="text/css">
+
+<!-- adn app.net-->
+<script type="text/javascript" src="/javascripts/adn-timeline.min.js"></script>
+
+<!-- MathJax Configuration -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<!--新窗口中打开链接-->
+<script type="text/javascript">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+
+<!--bigfoot-->
+<style>@import url("/stylesheets/bigfoot-number.scss");</style>
+<script type="text/javascript" src="/javascripts/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/bigfoot.js"></script>
+<script type="text/javascript">
+    $.bigfoot();
+</script>
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Free Mind</a></h1>
+  
+  <h2>Learn more. Do more. Be more.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<!--  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:shengmingzhiqing.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="搜索 = 输入 + 回车"/>
+  </fieldset>
+</form>
+   -->
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i> Blog</a></li>
+  <li><a href="/blog/archives/"><i class="fa fa-list-ul"></i> Archives</a></li>
+  <li><a href="/article-series/"><i class="fa fa-compass"></i> Series</a></li>
+  <!-- <li><a href="/adn-timeline/"><i class="fa fa-flask"></i> 断章</a></li>
+  <li><a href="/ebauche/"><i class="fa fa-gavel"></i> Ébauche</a></li>
+  <li><a href="http://haohailong.net"><i class="fa fa-leaf"></i> 另一面</a></li> -->
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Dynamic Programming</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T21:02:53+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><ul id="markdown-toc">
+  <li><a href="#section">动态规划算法四步骤：</a></li>
+  <li><a href="#section-1">动态规划原理</a>    <ul>
+      <li><a href="#section-2">最优子结构</a></li>
+      <li><a href="#section-3">重叠子问题</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-4">动态规划两种等价的实现方法</a>    <ul>
+      <li><a href="#top-down-with-memoization">带备忘的自顶向下 (top-down with memoization)</a></li>
+      <li><a href="#bottom-up-method">自底向上 (bottom-up method)</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-5">应用</a>    <ul>
+      <li><a href="#section-6">1. 石子合并问题</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>动态规划应用于子问题重叠问题，分治算法会反复求解那些公共子问题，而动态规划算法会对子问题只求解一次，将其解保存在一个表格中，避免不必要的计算。</p>
+
+<!--more-->
+
+<h2 id="section">动态规划算法四步骤：</h2>
+<ol>
+  <li>刻画一个最优解的结构特征 (最优子结构)</li>
+  <li>递归地定义最优解的值</li>
+  <li>计算最优解的值，通常采用自底向上的方法</li>
+  <li>利用计算出的信息构造一个最优解</li>
+</ol>
+
+<h2 id="section-1">动态规划原理</h2>
+<p>适用动态规划方法求解的最优问题应该具备两个要素：<strong>最优子结构</strong>和<strong>子问题重叠</strong></p>
+
+<h3 id="section-2">最优子结构</h3>
+<p>如果原问题的最优解包含其子问题的最优解，就称此问题具有最优子结构。</p>
+
+<p>发掘最优子结构性质的过程中，遵循如下模式：</p>
+
+<ol>
+  <li>证明问题最优解的第一个组成部分是做出一个选择，做出这次选择会产生一个或多个待解决的子问题。</li>
+  <li>在第一步选择中，假定已经知道哪种选择会得到最优解。你现在并不关心这种选择具体是如何得到的，只是假定已经知道这种选择。</li>
+  <li>给定可获得最优解的选择后，你确定这次选择会产生哪些子问题，以及如何最好地刻画子问题空间。</li>
+  <li>利用“剪切-粘贴” (cut-paste) 技术证明：作为构成原问题最优解的组成部分，每一个子问题的最优解就是它本身的最优解。</li>
+</ol>
+
+<p>我们可以用子问题的个数和每个子问题需要考察多少种选择这两个因素的乘积来粗略分析动态规划算法的运行时间。</p>
+
+<p>在动态规划方法中，通常自底向上地使用最优子结构，也就是说，首先求得子问题的最优解，然后在其中进行选择来求原问题的最优解。</p>
+
+<p>注：动态规划子问题无关：同一个原问题的一个子问题的解不影响另一个子问题的解。放过来说，就是要避免求解一个子问题时用到了某些资源，导致这些资源在求解其他子问题时不可用。</p>
+
+<h3 id="section-3">重叠子问题</h3>
+<p>如果递归算法反复求解相同的子问题，称最优化问题具有重叠子问题 (overlapping subproblems) 性质。</p>
+
+<h2 id="section-4">动态规划两种等价的实现方法</h2>
+
+<h3 id="top-down-with-memoization">带备忘的自顶向下 (top-down with memoization)</h3>
+<p>仍按自然递归形式编写过程，但过程中会保存每个子问题的解。当需要一个子问题的解时，过程首先检查是否已经保存过此解。如果是则直接返回保存的结果；否则按通常方式计算这个子问题，并保存结果。</p>
+
+<h3 id="bottom-up-method">自底向上 (bottom-up method)</h3>
+<p>将子问题按规模排序，按由小自大顺序进行求解。当求解某个子问题时，它所依赖的那些更小的子问题都已经求解完毕，结果已经保存。</p>
+
+<p>两种算法具有相同的渐进运行时间，但自底向上算法会比自顶向下备忘算法快(相差一个常量系数)，因为自底向上算法没有递归调用的开销。</p>
+
+<h2 id="section-5">应用</h2>
+
+<h3 id="section-6">1. 石子合并问题</h3>
+<p>（1）有 N 堆石子，现要将石子有序的合并成一堆，规定如下：每次只能移动<strong>任意</strong>的 2 堆石子合并，合并花费为新合成的一堆石子的数量。求将这 N 堆石子合并成一堆的总花费最小（或最大）。</p>
+
+<p>分析：当然这种情况是最简单的情况，合并的是任意两堆，直接贪心即可，每次选择最小的两堆合并。本问题实际上就是哈夫曼的变形。</p>
+
+<p>（2） 有 N 堆石子，现要将石子有序的合并成一堆，规定如下：每次只能移动<strong>相邻</strong>的 2 堆石子合并，合并花费为新合成的一堆石子的数量。求将这 N 堆石子合并成一堆的总花费最小（或最大）。</p>
+
+<p>分析：我们熟悉矩阵连乘，知道矩阵连乘也是每次合并相邻的两个矩阵，那么石子合并可以用矩阵连乘的方式来解决。</p>
+
+<p>设 dp[i][j] 表示第 i 到第 j 堆石子合并的最优值，sum[i][j] 表示第 i 到第 j 堆石子的总数量。那么就有状态转移公式：</p>
+
+<script type="math/tex; mode=display">dp[i][j]=\left\{\begin{matrix}
+0, if(i =j) \\ 
+min(dp[i][k]+dp[i][k+1]+sum[i][j]), other
+\end{matrix}\right.</script>
+
+<p>（3） 问题(2)的是在石子排列是直线情况下的解法，现在考虑把石子改为环形排列。因为石子绕成一个环，不是一条直线，所以 dp[i][j] 的含义应为从第 i 堆开始，合并 j 堆石子能得到的最优值。则易得状态转移方程为:</p>
+
+<script type="math/tex; mode=display">dp[i][j] = min(dp[i][k]+dp[(i+k)\%n][j-k]+sum[i][j])</script>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard"><span class="fn">Jie Huang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T21:02:53+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>Algorithm</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/sorting.html/" title="Previous Post: Sorting">&laquo; Sorting</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/greedy-algorithm.html/" title="Next Post: Greedy Algorithm">Greedy Algorithm &raquo;</a>
+      
+    </p>
+      <section class="postrevision">
+	<ul><li><strong>Rectify mathJax showing problem with https
+</strong>&nbsp; 2016-07-10 </li><li><strong>write articals</strong>&nbsp; 2016-07-07 </li></ul>
+</section>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/python-numpy.html/">Numpy Tutorial</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/tmux-cheatsheet.html/">Tmux Cheatsheet</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-latex.html/">Ubuntu Install Latex</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-stip.html/">Install STIP Under Ubuntu 14.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-ffmpeg.html/">Ubuntu 14.10 安装 Ffmpeg</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-dense-trajectory.html/">Install Dense Trajectory Under MacOS 10.10</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-opencv.html/">在 Ubuntu 上用 Apt-get 安装 Opencv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-python-opencv.html/">Mac 下安装 Python-OpenCV</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-os-caffe.html/">Mac OS X 10.10 安装 Caffe 教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/greedy-algorithm.html/">Greedy Algorithm</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+  <li class='category'><a href='/blog/categories/algorithm/'>Algorithm (6)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (5)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/c-plus-plus/'>c++ (2)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Jie Huang - <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">署名 -  非商业 - 非衍生</a> - <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, Customized by <a href="http://haohailong.net/" target="_blank">Haohailong.net</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

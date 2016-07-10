@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Back Tracking - Free Mind</title>
+  <meta name="author" content="Jie Huang">
+
+  
+  <meta name="description" content="1. 概念
+　　回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
+　　许多复杂的，规模较大的问题都可以使用回溯法，有“通用解题方法”的美称。 2.基本思想
+　　在包含问题的所有解的解空间树中， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://shengmingzhiqing.com/blog/back-tracking.html/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Free Mind" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Special+Elite:regular" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Marko+One:regular" rel="stylesheet" type="text/css">
+
+<!-- adn app.net-->
+<script type="text/javascript" src="/javascripts/adn-timeline.min.js"></script>
+
+<!-- MathJax Configuration -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
+<!--新窗口中打开链接-->
+<script type="text/javascript">
+function addBlankTargetForLinks () {
+  $('a[href^="http"]').each(function(){
+      $(this).attr('target', '_blank');
+  });
+}
+$(document).bind('DOMNodeInserted', function(event) {
+  addBlankTargetForLinks();
+});
+</script>
+
+<!--bigfoot-->
+<style>@import url("/stylesheets/bigfoot-number.scss");</style>
+<script type="text/javascript" src="/javascripts/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/bigfoot.js"></script>
+<script type="text/javascript">
+    $.bigfoot();
+</script>
+
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Free Mind</a></h1>
+  
+  <h2>Learn more. Do more. Be more.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<!--  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:shengmingzhiqing.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="搜索 = 输入 + 回车"/>
+  </fieldset>
+</form>
+   -->
+<ul class="main-navigation">
+  <li><a href="/"><i class="fa fa-home"></i> Blog</a></li>
+  <li><a href="/blog/archives/"><i class="fa fa-list-ul"></i> Archives</a></li>
+  <li><a href="/article-series/"><i class="fa fa-compass"></i> Series</a></li>
+  <!-- <li><a href="/adn-timeline/"><i class="fa fa-flask"></i> 断章</a></li>
+  <li><a href="/ebauche/"><i class="fa fa-gavel"></i> Ébauche</a></li>
+  <li><a href="http://haohailong.net"><i class="fa fa-leaf"></i> 另一面</a></li> -->
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Back Tracking</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T20:34:10+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h4 id="section">1. 概念</h4>
+<p>　　回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
+　　许多复杂的，规模较大的问题都可以使用回溯法，有“通用解题方法”的美称。</p>
+
+<!--more-->
+
+<h4 id="section-1">2.基本思想</h4>
+<p>　　在包含问题的所有解的解空间树中，按照深度优先搜索的策略，从根结点出发深度探索解空间树。当探索到某一结点时，要先判断该结点是否包含问题的解，如果包含，就从该结点出发继续探索下去，如果该结点不包含问题的解，则逐层向其祖先结点回溯（其实回溯法就是对隐式的深度优先搜索算法）。</p>
+
+<h4 id="section-2">3. 解题步骤</h4>
+<ol>
+  <li>针对所给问题，确定问题的解空间，问题的解空间应至少包含问题的一个（最优）解。</li>
+  <li>确定结点的扩展搜索规则</li>
+  <li>以深度优先方式搜索解空间，并在搜索过程中用剪枝函数避免无效搜索。</li>
+</ol>
+
+<h4 id="section-3">4. 算法框架</h4>
+<ol>
+  <li>
+    <p>问题框架：
+设问题的解是一个 n 维向量 (a1,a2,………,an)，约束条件是 ai(i=1,2,3,…..,n) 之间满足某种条件，记为 f(ai)。</p>
+  </li>
+  <li>
+    <p>递归的算法框架：
+回溯法是对解空间的深度优先搜索，在一般情况下使用递归函数来实现回溯法比较简单，其中 i 为搜索的深度，框架如下：</p>
+  </li>
+</ol>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="kt">int</span> <span class="n">a</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+</span><span class="line"><span class="k">try</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span>
+</span><span class="line"><span class="p">{</span>
+</span><span class="line">  <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="n">n</span><span class="p">)</span>
+</span><span class="line">    <span class="err">输出结果</span><span class="p">;</span>
+</span><span class="line">  <span class="k">else</span>
+</span><span class="line">  <span class="p">{</span>
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="err">下界</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="err">上界</span><span class="p">;</span> <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">// 枚举 i 所有可能的路径</span>
+</span><span class="line">    <span class="p">{</span>
+</span><span class="line">      <span class="k">if</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>     <span class="c1">// 满足限界函数和约束条件</span>
+</span><span class="line">      <span class="p">{</span>
+</span><span class="line">        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+</span><span class="line">        <span class="p">...</span>          <span class="c1">// 其他操作</span>
+</span><span class="line">        <span class="k">try</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+</span><span class="line">        <span class="err">回溯前的清理工作（如</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="err">置空值等）</span><span class="p">;</span>
+</span><span class="line">      <span class="p">}</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">  <span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard"><span class="fn">Jie Huang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T20:34:10+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/algorithm/'>Algorithm</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/mac-make-ubuntu-installation-u.html/" title="Previous Post: Mac 下制作 ubuntu 安装 U 盘">&laquo; Mac 下制作 ubuntu 安装 U 盘</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/topological-sorting.html/" title="Next Post: Topological Sorting">Topological Sorting &raquo;</a>
+      
+    </p>
+      <section class="postrevision">
+	<ul><li><strong>write articals</strong>&nbsp; 2016-07-07 </li></ul>
+</section>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/python-numpy.html/">Numpy Tutorial</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/tmux-cheatsheet.html/">Tmux Cheatsheet</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-latex.html/">Ubuntu Install Latex</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-stip.html/">Install STIP Under Ubuntu 14.04</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-install-ffmpeg.html/">Ubuntu 14.10 安装 Ffmpeg</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-dense-trajectory.html/">Install Dense Trajectory Under MacOS 10.10</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/ubuntu-opencv.html/">在 Ubuntu 上用 Apt-get 安装 Opencv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-python-opencv.html/">Mac 下安装 Python-OpenCV</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mac-os-caffe.html/">Mac OS X 10.10 安装 Caffe 教程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/greedy-algorithm.html/">Greedy Algorithm</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+  <li class='category'><a href='/blog/categories/algorithm/'>Algorithm (6)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (5)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/c-plus-plus/'>c++ (2)</a></li>
+<li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Jie Huang - <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">署名 -  非商业 - 非衍生</a> - <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, Customized by <a href="http://haohailong.net/" target="_blank">Haohailong.net</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
