@@ -9,7 +9,7 @@
   <meta name="author" content="Jie Huang">
 
   
-  <meta name="description" content="动态规划算法四步骤 动态规划原理 最优子结构 重叠子问题 动态规划两种等价的实现方法 带备忘的自顶向下 (Top-down with memoization) 自底向上 (Bottom-up method) 应用 1. 石子合并问题 动态规划应用于子问题重叠问题，分治算法会反复求解那些公共子问题 &hellip;">
+  <meta name="description" content=" 1. 活动选择问题 动态规划 贪心选择 2. 算法实现 3. 算法原理 贪心选择性质 最优子结构 4. 贪心对动态规划 贪心算法在每一步都做出当时看起来最佳的选择。它总是做出局部最优的选择，寄希望这样的选择能导致全局最优解。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,6 +111,62 @@ $(document).bind('DOMNodeInserted', function(event) {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/greedy-algorithm.html/">Greedy Algorithm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-07-06T22:44:20+08:00" pubdate data-updated="true">2016年 7月 6日</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ul id="markdown-toc">
+  <li><a href="#section">1. 活动选择问题</a>    <ul>
+      <li><a href="#section-1">动态规划</a></li>
+      <li><a href="#section-2">贪心选择</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-3">2. 算法实现</a></li>
+  <li><a href="#section-4">3. 算法原理</a>    <ul>
+      <li><a href="#section-5">贪心选择性质</a></li>
+      <li><a href="#section-6">最优子结构</a></li>
+    </ul>
+  </li>
+  <li><a href="#section-7">4. 贪心对动态规划</a></li>
+</ul>
+
+<p>贪心算法在每一步都做出当时看起来最佳的选择。它总是做出局部最优的选择，寄希望这样的选择能导致全局最优解。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/greedy-algorithm.html/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -569,69 +625,9 @@ $(document).bind('DOMNodeInserted', function(event) {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/markdown-examples.html/">Markdown Examples</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-07-06T11:24:00+08:00" pubdate data-updated="true">2016年 7月 6日</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ul id="markdown-toc">
-  <li><a href="#insert-image">Insert image.</a></li>
-  <li><a href="#info--warn">Info &amp; Warn</a></li>
-  <li><a href="#citation">Citation</a></li>
-  <li><a href="#footnote">Footnote</a></li>
-  <li><a href="#hyperlink">Hyperlink</a></li>
-  <li><a href="#equation">Equation</a></li>
-  <li><a href="#code">Code</a></li>
-</ul>
-
-<h3 id="insert-image">Insert image.</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-{<span class="string"><span class="delimiter">% </span><span class="content">img</span><span class="delimiter"> </span></span>[left|right|center] /images/test.jpg [width] [height] [title text [alt text]] %}
-<span class="constant">OR</span>
-{<span class="string"><span class="delimiter">% </span><span class="content">imgcap</span><span class="delimiter"> </span></span>{{ root_url }}/images/test.jpg <span class="integer">256</span> <span class="integer">256</span> <span class="constant">This</span> is a image test <span class="string"><span class="delimiter">%}</span><span class="content">
-</span></span></pre></div>
-</div>
- </figure></notextile></div>
-
-<p><span class="caption-wrapper"><img class="caption" src="/images/test.jpg" width="256" height="256" title="This is a image test" /><span class="caption-text">This is a image test</span></span></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/markdown-examples.html/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; 较早的文章</a>
     
     <a href="/blog/archives">文章列表</a>
     
@@ -644,6 +640,10 @@ $(document).bind('DOMNodeInserted', function(event) {
     <section>
   <h1>Recent posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/tensorflow-basic-tutorial.html/">Tensorflow Basic Tutorial</a>
+      </li>
     
       <li class="post">
         <a href="/blog/python-numpy.html/">Numpy Tutorial</a>
@@ -681,10 +681,6 @@ $(document).bind('DOMNodeInserted', function(event) {
         <a href="/blog/mac-os-caffe.html/">Mac OS X 10.10 安装 Caffe 教程</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/greedy-algorithm.html/">Greedy Algorithm</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -695,6 +691,7 @@ $(document).bind('DOMNodeInserted', function(event) {
 <li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
 <li class='category'><a href='/blog/categories/markdown/'>Markdown (1)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/tensorflow/'>Tensorflow (1)</a></li>
 <li class='category'><a href='/blog/categories/c-plus-plus/'>c++ (2)</a></li>
 <li class='category'><a href='/blog/categories/tmux/'>tmux (1)</a></li>
 

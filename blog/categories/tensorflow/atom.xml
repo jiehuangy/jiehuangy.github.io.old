@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Categories:Tensorflow | Free Mind]]></title>
+  <link href="http://shengmingzhiqing.com/blog/categories/tensorflow/atom.xml" rel="self"/>
+  <link href="http://shengmingzhiqing.com/"/>
+  <updated>2016-08-02T00:09:04+08:00</updated>
+  <id>http://shengmingzhiqing.com/</id>
+  <author>
+    <name><![CDATA[Jie Huang]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tensorflow Basic Tutorial]]></title>
+    <link href="http://shengmingzhiqing.com/blog/tensorflow-basic-tutorial.html/"/>
+    <updated>2016-08-01T15:22:38+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/tensorflow-basic-tutorial</id>
+    <content type="html"><![CDATA[<p><img class="center" src="/images/2016-08-01-tensorflow-basic-tutorial-tensorflow.jpg" width="612" height="256">
+<!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#tensors">Tensors</a></li>
+  <li><a href="#variables">Variables</a></li>
+  <li><a href="#interactive-usage">Interactive Usage</a></li>
+  <li><a href="#initialize-x-using-the-run-method-of-its-initializer-op">Initialize ‘x’ using the run() method of its initializer op.</a></li>
+  <li><a href="#add-an-op-to-subtract-a-from-x--run-it-and-print-the-result">Add an op to subtract ‘a’ from ‘x’.  Run it and print the result</a></li>
+  <li><a href="#close-the-session-when-were-done">Close the Session when we’re done.</a>    <ul>
+      <li><a href="#fetches">Fetches</a></li>
+    </ul>
+  </li>
+  <li><a href="#output">output:</a>    <ul>
+      <li><a href="#feeds">Feeds</a></li>
+    </ul>
+  </li>
+  <li><a href="#output-1">output:</a></li>
+</ul>
+
+<h3 id="tensors">Tensors</h3>
+<p>TensorFlow programs use a tensor data structure to represent all data – only tensors are passed between operations in the computation graph. You can think of a TensorFlow tensor as an n-dimensional array or list. </p>
+
+<h3 id="variables">Variables</h3>
+<p>A Variable is a modifiable tensor that lives in TensorFlow’s graph of interacting operations. It can be used and even modified by the computation.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Tensors &amp; Variables </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="error">»</span>&amp;gt; x = tf.Variable([<span class="float">1.0</span>, <span class="float">2.0</span>])
+&amp;lt;tensorflow.python.ops.variables.Variable <span class="predefined">object</span> at <span class="hex">0x117cfd790</span>&amp;gt;
+<span class="error">»</span>&amp;gt; a = tf.constant([<span class="float">3.0</span>, <span class="float">3.0</span>])
+&amp;lt;tf.Tensor <span class="error">‘</span>Const&lt;em&gt;<span class="integer">3</span>:<span class="integer">0</span><span class="error">’</span> shape=(<span class="integer">2</span>,) dtype=float32&amp;gt;
+<span class="error">»</span>&amp;gt; y = x + a
+&amp;lt;tf.Tensor <span class="error">‘</span>add&lt;/em&gt;<span class="integer">2</span>:<span class="integer">0</span><span class="error">’</span> shape=(<span class="integer">2</span>,) dtype=float32&amp;gt;
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<h3 id="interactive-usage">Interactive Usage</h3>
+<p>You can instead use the InteractiveSession class, and the <code>Tensor.eval()</code> and <code>Operation.run()</code> methods. This avoids having to keep a variable holding the session.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Interactive Usage </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment"># Enter an interactive TensorFlow Session.</span>
+<span class="error">»</span>&amp;gt; <span class="keyword">import</span> <span class="include">tensorflow</span> <span class="keyword">as</span> tf
+<span class="error">»</span>&amp;gt; sess = tf.InteractiveSession()&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;blockquote&gt;
+      &lt;p&gt;x = tf.Variable([<span class="float">1.0</span>, <span class="float">2.0</span>])
+a = tf.constant([<span class="float">3.0</span>, <span class="float">3.0</span>])&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=<span class="string"><span class="delimiter">&quot;</span><span class="content">initialize-x-using-the-run-method-of-its-initializer-op</span><span class="delimiter">&quot;</span></span>&gt;Initialize <span class="error">‘</span>x<span class="error">’</span> using the run() method of its initializer op.&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;blockquote&gt;
+      &lt;p&gt;x.initializer.run()&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=<span class="string"><span class="delimiter">&quot;</span><span class="content">add-an-op-to-subtract-a-from-x--run-it-and-print-the-result</span><span class="delimiter">&quot;</span></span>&gt;Add an op to subtract <span class="error">‘</span>a<span class="error">’</span> <span class="keyword">from</span> <span class="error">‘</span>x<span class="error">’</span>.  Run it <span class="keyword">and</span> <span class="keyword">print</span> the result&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;blockquote&gt;
+      &lt;p&gt;sub = tf.sub(x, a)
+print(sub.eval())
+<span class="comment"># ==&amp;gt; [-2. -1.]&lt;/p&gt;</span>
+    &lt;/blockquote&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=<span class="string"><span class="delimiter">&quot;</span><span class="content">close-the-session-when-were-done</span><span class="delimiter">&quot;</span></span>&gt;Close the Session when we<span class="error">’</span>re done.&lt;/h1&gt;
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;blockquote&gt;
+      &lt;p&gt;sess.close()
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+    </blockquote>
+  </blockquote>
+</blockquote>
+
+<h3 id="fetches">Fetches</h3>
+<p>To fetch the outputs of operations, execute the graph with a run() call on the Session object and pass in the tensors to retrieve.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Fetches </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="error">»</span>&amp;gt; input1 = tf.constant([<span class="float">3.0</span>])
+<span class="error">»</span>&amp;gt; input2 = tf.constant([<span class="float">2.0</span>])
+<span class="error">»</span>&amp;gt; add = tf.add(input1, input2)
+<span class="error">»</span>&amp;gt; sub = tf.add(input1, input2)&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;blockquote&gt;
+      &lt;p&gt;<span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:
+  result = sess.run([mul, intermed])
+  print(result)&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=<span class="string"><span class="delimiter">&quot;</span><span class="content">output</span><span class="delimiter">&quot;</span></span>&gt;output:&lt;/h1&gt;
+&lt;p&gt;<span class="comment"># [array([ 5.], dtype=float32), array([ 1.], dtype=float32)]</span>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+<h3 id="feeds">Feeds</h3>
+<p>The examples above introduce tensors into the computation graph by storing them in Constants and Variables. TensorFlow also provides a feed mechanism for patching a tensor directly into any operation in the graph.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption class='code-header' style='margin-bottom:-5px;'><span>Feeds </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="error">»</span>&amp;gt; input1 = tf.placeholder(tf.float32)
+<span class="error">»</span>&amp;gt; input2 = tf.placeholder(tf.float32)
+<span class="error">»</span>&amp;gt; output = tf.mul(input1, input2)&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;blockquote&gt;
+      &lt;p&gt;<span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:
+  print(sess.run([output], feed_dict={input1:[<span class="float">7.</span>], input2:[<span class="float">2.</span>]}))&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=<span class="string"><span class="delimiter">&quot;</span><span class="content">output-1</span><span class="delimiter">&quot;</span></span>&gt;output:&lt;/h1&gt;
+&lt;p&gt;<span class="comment"># [array([ 14.], dtype=float32)]</span>
+</pre></div>
+</div>
+ </figure></notextile></div></p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -4,7 +4,7 @@
   <title><![CDATA[Free Mind]]></title>
   <link href="http://shengmingzhiqing.com/atom.xml" rel="self"/>
   <link href="http://shengmingzhiqing.com/"/>
-  <updated>2016-07-10T16:43:22+08:00</updated>
+  <updated>2016-08-02T00:09:04+08:00</updated>
   <id>http://shengmingzhiqing.com/</id>
   <author>
     <name><![CDATA[Jie Huang]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tensorflow Basic Tutorial]]></title>
+    <link href="http://shengmingzhiqing.com/blog/tensorflow-basic-tutorial.html/"/>
+    <updated>2016-08-01T15:22:38+08:00</updated>
+    <id>http://shengmingzhiqing.com/blog/tensorflow-basic-tutorial</id>
+    <content type="html"><![CDATA[<p><img class="center" src="http://shengmingzhiqing.com/images/2016-08-01-tensorflow-basic-tutorial-tensorflow.jpg" width="612" height="256" />
+<!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#tensors">Tensors</a></li>
+  <li><a href="#variables">Variables</a></li>
+  <li><a href="#interactive-usage">Interactive Usage</a></li>
+  <li><a href="#fetches">Fetches</a></li>
+  <li><a href="#feeds">Feeds</a></li>
+</ul>
+
+<h3 id="tensors">Tensors</h3>
+<p>TensorFlow programs use a tensor data structure to represent all data – only tensors are passed between operations in the computation graph. You can think of a TensorFlow tensor as an n-dimensional array or list. </p>
+
+<h3 id="variables">Variables</h3>
+<p>A Variable is a modifiable tensor that lives in TensorFlow’s graph of interacting operations. It can be used and even modified by the computation.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Tensors &amp; Variables </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+&gt;&gt;&gt; x = tf.Variable([<span class="float">1.0</span>, <span class="float">2.0</span>])
+&lt;tensorflow.python.ops.variables.Variable <span class="predefined">object</span> at <span class="hex">0x117cfd790</span>&gt;
+&gt;&gt;&gt; a = tf.constant([<span class="float">3.0</span>, <span class="float">3.0</span>])
+&lt;tf.Tensor <span class="string"><span class="delimiter">'</span><span class="content">Const_3:0</span><span class="delimiter">'</span></span> shape=(<span class="integer">2</span>,) dtype=float32&gt;
+&gt;&gt;&gt; y = x + a
+&lt;tf.Tensor <span class="string"><span class="delimiter">'</span><span class="content">add_2:0</span><span class="delimiter">'</span></span> shape=(<span class="integer">2</span>,) dtype=float32&gt;
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<h3 id="interactive-usage">Interactive Usage</h3>
+<p>You can instead use the InteractiveSession class, and the <code>Tensor.eval()</code> and <code>Operation.run()</code> methods. This avoids having to keep a variable holding the session.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Interactive Usage </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment"># Enter an interactive TensorFlow Session.</span>
+&gt;&gt;&gt; <span class="keyword">import</span> <span class="include">tensorflow</span> <span class="keyword">as</span> tf
+&gt;&gt;&gt; sess = tf.InteractiveSession()
+
+&gt;&gt;&gt; x = tf.Variable([<span class="float">1.0</span>, <span class="float">2.0</span>])
+&gt;&gt;&gt; a = tf.constant([<span class="float">3.0</span>, <span class="float">3.0</span>])
+
+<span class="comment"># Initialize 'x' using the run() method of its initializer op.</span>
+&gt;&gt;&gt; x.initializer.run()
+
+<span class="comment"># Add an op to subtract 'a' from 'x'.  Run it and print the result</span>
+&gt;&gt;&gt; sub = tf.sub(x, a)
+&gt;&gt;&gt; print(sub.eval())
+<span class="comment"># ==&gt; [-2. -1.]</span>
+
+<span class="comment"># Close the Session when we're done.</span>
+&gt;&gt;&gt; sess.close()
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<h3 id="fetches">Fetches</h3>
+<p>To fetch the outputs of operations, execute the graph with a run() call on the Session object and pass in the tensors to retrieve.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Fetches </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+&gt;&gt;&gt; input1 = tf.constant([<span class="float">3.0</span>])
+&gt;&gt;&gt; input2 = tf.constant([<span class="float">2.0</span>])
+&gt;&gt;&gt; add = tf.add(input1, input2)
+&gt;&gt;&gt; sub = tf.add(input1, input2)
+
+&gt;&gt;&gt; <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:
+&gt;&gt;&gt;   result = sess.run([mul, intermed])
+&gt;&gt;&gt;   print(result)
+
+<span class="comment"># output:</span>
+<span class="comment"># [array([ 5.], dtype=float32), array([ 1.], dtype=float32)]</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<h3 id="feeds">Feeds</h3>
+<p>The examples above introduce tensors into the computation graph by storing them in Constants and Variables. TensorFlow also provides a feed mechanism for patching a tensor directly into any operation in the graph.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Feeds </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+&gt;&gt;&gt; input1 = tf.placeholder(tf.float32)
+&gt;&gt;&gt; input2 = tf.placeholder(tf.float32)
+&gt;&gt;&gt; output = tf.mul(input1, input2)
+
+&gt;&gt;&gt; <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:
+&gt;&gt;&gt;   print(sess.run([output], feed_dict={input1:[<span class="float">7.</span>], input2:[<span class="float">2.</span>]}))
+
+<span class="comment"># output:</span>
+<span class="comment"># [array([ 14.], dtype=float32)]</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Numpy Tutorial]]></title>
@@ -1339,177 +1444,6 @@ dp[i][j] = min(dp[i][k]+dp[(i+k)\%n][j-k]+sum[i][j])
 <div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class=""><span class="line">gconftool-2 --set /apps/metacity/general/button_layout --type string "close,minimize,maximize"</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Markdown Examples]]></title>
-    <link href="http://shengmingzhiqing.com/blog/markdown-examples.html/"/>
-    <updated>2016-07-06T11:24:00+08:00</updated>
-    <id>http://shengmingzhiqing.com/blog/markdown-examples</id>
-    <content type="html"><![CDATA[<ul id="markdown-toc">
-  <li><a href="#insert-image">Insert image.</a></li>
-  <li><a href="#info--warn">Info &amp; Warn</a></li>
-  <li><a href="#citation">Citation</a></li>
-  <li><a href="#footnote">Footnote</a></li>
-  <li><a href="#hyperlink">Hyperlink</a></li>
-  <li><a href="#equation">Equation</a></li>
-  <li><a href="#code">Code</a></li>
-</ul>
-
-<h3 id="insert-image">Insert image.</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-{<span class="string"><span class="delimiter">% </span><span class="content">img</span><span class="delimiter"> </span></span>[left|right|center] /images/test.jpg [width] [height] [title text [alt text]] %}
-<span class="constant">OR</span>
-{<span class="string"><span class="delimiter">% </span><span class="content">imgcap</span><span class="delimiter"> </span></span>{{ root_url }}/images/test.jpg <span class="integer">256</span> <span class="integer">256</span> <span class="constant">This</span> is a image test <span class="string"><span class="delimiter">%}</span><span class="content">
-</span></span></pre></div>
-</div>
- </figure></notextile></div>
-
-<p><span class="caption-wrapper"><img class="caption" src="http://shengmingzhiqing.com/images/test.jpg" width="256" height="256" title="This is a image test" /><span class="caption-text">This is a image test</span></span></p>
-
-<!--more-->
-
-<h3 id="info--warn">Info &amp; Warn</h3>
-<p class="info">This is information.</p>
-
-<p class="warning">This is warning.</p>
-
-<h3 id="citation">Citation</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-&gt; This is
-&gt; 
-&gt; Citation.
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<blockquote>
-  <p>This is</p>
-
-  <p>Citation.</p>
-</blockquote>
-
-<h3 id="footnote">Footnote</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-[^1]This is footnote.
-[^1]: Explain for footnote.
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p><sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>This is footnote.</p>
-
-<h3 id="hyperlink">Hyperlink</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-[Github](https://github.com/)
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p><a href="https://github.com/">Github</a></p>
-
-<h3 id="equation">Equation</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-$$
-f'\left( x\right) = \lim _{x\rightarrow 0}\dfrac {f\left( x+\Delta x\right) - f\left( x\right)}{\Delta x}
-$$
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<script type="math/tex; mode=display">
-f'\left( x\right) = \lim _{x\rightarrow 0}\dfrac {f\left( x+\Delta x\right) - f\left( x\right)}{\Delta x}
-</script>
-
-<h3 id="code">Code</h3>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-This &lt;code&gt;is &lt;/code&gt; in `line` code.
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<p>This <code>is </code> in <code>line</code> code.</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-{ <span class="string"><span class="delimiter">% </span><span class="content">coderay</span><span class="delimiter"> </span></span>[<span class="key">lang</span>:lang] [<span class="key">linenos</span>:<span class="predefined-constant">true</span>|<span class="predefined-constant">false</span>(default)] [title] [url] [link text] % }
-code fragment
-{ <span class="string"><span class="delimiter">% </span><span class="content">endcoderay</span><span class="delimiter"> </span></span>% }
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-{<span class="string"><span class="delimiter">% </span><span class="content">codeblock</span><span class="delimiter"> </span></span><span class="key">lang</span>:python caption <span class="string"><span class="delimiter">%}</span><span class="content">
-rv = conn.validateaddress(foo)
-if rv.isvalid:
-    print &quot;The address that you provided is valid&quot;
-else:
-    print &quot;The address that you provided is invalid, please correct&quot;
-{% endcodeblock %</span><span class="delimiter">}</span></span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>caption </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="n">rv</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">validateaddress</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span>
-</span><span class="line"><span class="k">if</span> <span class="n">rv</span><span class="o">.</span><span class="n">isvalid</span><span class="p">:</span>
-</span><span class="line">    <span class="k">print</span> <span class="s">&quot;The address that you provided is valid&quot;</span>
-</span><span class="line"><span class="k">else</span><span class="p">:</span>
-</span><span class="line">    <span class="k">print</span> <span class="s">&quot;The address that you provided is invalid, please correct&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"> <div class="CodeRay">
-  <div class="code"><pre>
-{<span class="string"><span class="delimiter">% </span><span class="content">coderay</span><span class="delimiter"> </span></span><span class="key">lang</span>:python caption <span class="string"><span class="delimiter">%}</span><span class="content">
-rv = conn.validateaddress(foo)
-if rv.isvalid:
-    print &quot;The address that you provided is valid&quot;
-else:
-    print &quot;The address that you provided is invalid, please correct&quot;
-{% endcoderay %</span><span class="delimiter">}</span></span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>caption </span></figcaption>
- <div class="CodeRay">
-  <div class="code"><pre>
-rv = conn.validateaddress(foo)
-<span class="keyword">if</span> rv.isvalid:
-    <span class="keyword">print</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">The address that you provided is valid</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">else</span>:
-    <span class="keyword">print</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">The address that you provided is invalid, please correct</span><span class="delimiter">&quot;</span></span>
-</pre></div>
-</div>
- </figure></notextile></div>
-
-<div class="footnotes">
-  <ol>
-    <li id="fn:1">
-      <p>Explain for footnote.<a href="#fnref:1" rel="reference">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
 ]]></content>
   </entry>
   

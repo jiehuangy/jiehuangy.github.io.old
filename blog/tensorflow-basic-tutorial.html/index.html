@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ébauche - Free Mind</title>
+  <title>Tensorflow Basic Tutorial - Free Mind</title>
   <meta name="author" content="Jie Huang">
 
   
-  <meta name="description" content="Ébauche 2014年 4月23日 ébauche [ebo∫]: 法文单词，意为草稿。 本页面所列文章均为未完成草稿，未经允许，请勿转载。 Octopress 相关： Octopress/Jekyll 博客 WordPress 相关： WordPress 常用插件 52Podcast 相关 &hellip;">
+  <meta name="description" content="Tensors Variables Interactive Usage Fetches Feeds Tensors
+TensorFlow programs use a tensor data structure to represent all data – only tensors are &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://shengmingzhiqing.com/ebauche/index.html">
+  <link rel="canonical" href="http://shengmingzhiqing.com/blog/tensorflow-basic-tutorial.html/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Free Mind" type="application/atom+xml">
@@ -110,69 +111,15 @@ $(document).bind('DOMNodeInserted', function(event) {
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Ébauche</h1>
-    <p class="meta">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-23T16:06:00+08:00" pubdate data-updated="true">2014年 4月23日</time></p>
-  </header>
-  
-  <p class="info"><i class="fa fa-bell-o"></i> ébauche [ebo∫]: 法文单词，意为草稿。<br />  
-本页面所列文章均为未完成草稿，未经允许，请勿转载。</p>
-
-<h4 id="octopress-">Octopress 相关：</h4>
-
-<ul>
-  <li><a href="/ebauche/octopress/jekyll-octopress-blogs.html">Octopress/Jekyll 博客</a></li>
-</ul>
-
-<h4 id="wordpress-">WordPress 相关：</h4>
-<ul>
-  <li><a href="/ebauche/wordpress/wordpress-plugins-in-use.html">WordPress 常用插件</a></li>
-</ul>
-
-<h4 id="podcast-">52Podcast 相关：</h4>
-<ul>
-  <li><a href="/ebauche/52podcast/52podcast-internal-training-videos.html">52Podcast 内部教学视频</a></li>
-</ul>
-
-<h4 id="notes">Notes:</h4>
-<ul>
-  <li><a href="/ebauche/notes/Notes-on-Ubuntu.html">Notes on Ubuntu</a></li>
-</ul>
-
-<h2 id="section">已正式发布的内容：</h2>
-
-<h4 id="octopress--1">Octopress 相关：</h4>
-
-<p class="info">本部分内容已经作为正式文章发布，请点此查看 <a href="http://s.olo.la/rRRf">Octopress 教程目录</a></p>
-
-<ul>
-  <li><a href="/ebauche/octopress/build-log.html">Octopress 搭建日志</a></li>
-  <li><a href="/ebauche/octopress/task-list.html">Octopress 任务列表</a></li>
-</ul>
-
-  
-    <footer>
+    
+      <h1 class="entry-title">Tensorflow Basic Tutorial</h1>
+    
+    
       <p class="meta">
         
-  
-
-<span class="byline author vcard"><span class="fn">郝海龙</span></span>
-
-        
 
 
 
@@ -184,19 +131,161 @@ $(document).bind('DOMNodeInserted', function(event) {
   
 
 
-<time datetime="2014-04-23T16:06:00+08:00" pubdate data-updated="true">2014年 4月23日</time>
+<time datetime="2016-08-01T15:22:38+08:00" pubdate data-updated="true">2016年 8月 1日</time>
         
       </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img class="center" src="/images/2016-08-01-tensorflow-basic-tutorial-tensorflow.jpg" width="612" height="256" />
+<!--more--></p>
+
+<ul id="markdown-toc">
+  <li><a href="#tensors">Tensors</a></li>
+  <li><a href="#variables">Variables</a></li>
+  <li><a href="#interactive-usage">Interactive Usage</a></li>
+  <li><a href="#fetches">Fetches</a></li>
+  <li><a href="#feeds">Feeds</a></li>
+</ul>
+
+<h3 id="tensors">Tensors</h3>
+<p>TensorFlow programs use a tensor data structure to represent all data – only tensors are passed between operations in the computation graph. You can think of a TensorFlow tensor as an n-dimensional array or list. </p>
+
+<h3 id="variables">Variables</h3>
+<p>A Variable is a modifiable tensor that lives in TensorFlow’s graph of interacting operations. It can be used and even modified by the computation.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Tensors &amp; Variables </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+&gt;&gt;&gt; x = tf.Variable([<span class="float">1.0</span>, <span class="float">2.0</span>])
+&lt;tensorflow.python.ops.variables.Variable <span class="predefined">object</span> at <span class="hex">0x117cfd790</span>&gt;
+&gt;&gt;&gt; a = tf.constant([<span class="float">3.0</span>, <span class="float">3.0</span>])
+&lt;tf.Tensor <span class="string"><span class="delimiter">'</span><span class="content">Const_3:0</span><span class="delimiter">'</span></span> shape=(<span class="integer">2</span>,) dtype=float32&gt;
+&gt;&gt;&gt; y = x + a
+&lt;tf.Tensor <span class="string"><span class="delimiter">'</span><span class="content">add_2:0</span><span class="delimiter">'</span></span> shape=(<span class="integer">2</span>,) dtype=float32&gt;
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<h3 id="interactive-usage">Interactive Usage</h3>
+<p>You can instead use the InteractiveSession class, and the <code>Tensor.eval()</code> and <code>Operation.run()</code> methods. This avoids having to keep a variable holding the session.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Interactive Usage </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+<span class="comment"># Enter an interactive TensorFlow Session.</span>
+&gt;&gt;&gt; <span class="keyword">import</span> <span class="include">tensorflow</span> <span class="keyword">as</span> tf
+&gt;&gt;&gt; sess = tf.InteractiveSession()
+
+&gt;&gt;&gt; x = tf.Variable([<span class="float">1.0</span>, <span class="float">2.0</span>])
+&gt;&gt;&gt; a = tf.constant([<span class="float">3.0</span>, <span class="float">3.0</span>])
+
+<span class="comment"># Initialize 'x' using the run() method of its initializer op.</span>
+&gt;&gt;&gt; x.initializer.run()
+
+<span class="comment"># Add an op to subtract 'a' from 'x'.  Run it and print the result</span>
+&gt;&gt;&gt; sub = tf.sub(x, a)
+&gt;&gt;&gt; print(sub.eval())
+<span class="comment"># ==&gt; [-2. -1.]</span>
+
+<span class="comment"># Close the Session when we're done.</span>
+&gt;&gt;&gt; sess.close()
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<h3 id="fetches">Fetches</h3>
+<p>To fetch the outputs of operations, execute the graph with a run() call on the Session object and pass in the tensors to retrieve.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Fetches </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+&gt;&gt;&gt; input1 = tf.constant([<span class="float">3.0</span>])
+&gt;&gt;&gt; input2 = tf.constant([<span class="float">2.0</span>])
+&gt;&gt;&gt; add = tf.add(input1, input2)
+&gt;&gt;&gt; sub = tf.add(input1, input2)
+
+&gt;&gt;&gt; <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:
+&gt;&gt;&gt;   result = sess.run([mul, intermed])
+&gt;&gt;&gt;   print(result)
+
+<span class="comment"># output:</span>
+<span class="comment"># [array([ 5.], dtype=float32), array([ 1.], dtype=float32)]</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+<h3 id="feeds">Feeds</h3>
+<p>The examples above introduce tensors into the computation graph by storing them in Constants and Variables. TensorFlow also provides a feed mechanism for patching a tensor directly into any operation in the graph.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption class="code-header" style="margin-bottom:-5px;"><span>Feeds </span></figcaption>
+ <div class="CodeRay">
+  <div class="code"><pre>
+&gt;&gt;&gt; input1 = tf.placeholder(tf.float32)
+&gt;&gt;&gt; input2 = tf.placeholder(tf.float32)
+&gt;&gt;&gt; output = tf.mul(input1, input2)
+
+&gt;&gt;&gt; <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:
+&gt;&gt;&gt;   print(sess.run([output], feed_dict={input1:[<span class="float">7.</span>], input2:[<span class="float">2.</span>]}))
+
+<span class="comment"># output:</span>
+<span class="comment"># [array([ 14.], dtype=float32)]</span>
+</pre></div>
+</div>
+ </figure></notextile></div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <div class="sharing">
+  
+
+<span class="byline author vcard"><span class="fn">Jie Huang</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-01T15:22:38+08:00" pubdate data-updated="true">2016年 8月 1日</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tensorflow/'>Tensorflow</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
   
   
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/python-numpy.html/" title="Previous Post: Numpy Tutorial">&laquo; Numpy Tutorial</a>
+      
+      
+    </p>
+      <section class="postrevision">
+	<ul></ul>
+</section>
+  </footer>
 </article>
 
 </div>
